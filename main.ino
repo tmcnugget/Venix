@@ -3,6 +3,7 @@
 
 // Define a global variable to store the most recent HID report (20 bytes in this case)
 uint8_t hid[20];  // Adjusted to match the report size of 20 bytes
+int speed = 150;
 
 // Configure the motor driver.
 CytronMD motor1(PWM_PWM, 8, 9);  
@@ -13,55 +14,55 @@ CytronMD motor4(PWM_PWM, 14, 15);
 // Placeholder function for forward
 void forwards() {
   Serial.println("Moving Fowards");
-  motor1.setSpeed(255);
-  motor2.setSpeed(255);
-  motor3.setSpeed(255);
-  motor4.setSpeed(255);
+  motor1.setSpeed(speed);
+  motor2.setSpeed(speed);
+  motor3.setSpeed(speed);
+  motor4.setSpeed(speed);
 }
 
 // Placeholder function for bckwrds
 void backwards() {
   Serial.println("Moving Backwards...");
-  motor1.setSpeed(-255);
-  motor2.setSpeed(-255);
-  motor3.setSpeed(-255);
-  motor4.setSpeed(-255);
+  motor1.setSpeed(-speed);
+  motor2.setSpeed(-speed);
+  motor3.setSpeed(-speed);
+  motor4.setSpeed(-speed);
 }
 
 // Placeholder function for left
 void left() {
   Serial.println("Moving Left");
-  motor1.setSpeed(-255);
-  motor2.setSpeed(255);
-  motor3.setSpeed(255);
-  motor4.setSpeed(-255);
+  motor1.setSpeed(-speed);
+  motor2.setSpeed(speed);
+  motor3.setSpeed(speed);
+  motor4.setSpeed(-speed);
 }
 
 // Placeholder function for right
 void right() {
   Serial.println("Moving Right...");
-  motor1.setSpeed(255);
-  motor2.setSpeed(-255);
-  motor3.setSpeed(-255);
-  motor4.setSpeed(255);
+  motor1.setSpeed(speed);
+  motor2.setSpeed(-speed);
+  motor3.setSpeed(-speed);
+  motor4.setSpeed(speed);
 }
 
 // Placeholder function for left
 void rleft() {
   Serial.println("Rotating Left");
-  motor1.setSpeed(-255);
-  motor2.setSpeed(-255);
-  motor3.setSpeed(255);
-  motor4.setSpeed(255);
+  motor1.setSpeed(-speed);
+  motor2.setSpeed(-speed);
+  motor3.setSpeed(speed);
+  motor4.setSpeed(speed);
 }
 
 // Placeholder function for right
 void rright() {
   Serial.println("Rotating Right...");
-  motor1.setSpeed(255);
-  motor2.setSpeed(255);
-  motor3.setSpeed(-255);
-  motor4.setSpeed(-255);
+  motor1.setSpeed(speed);
+  motor2.setSpeed(speed);
+  motor3.setSpeed(-speed);
+  motor4.setSpeed(-speed);
 }
 
 void stop() {
@@ -70,6 +71,22 @@ void stop() {
   motor2.setSpeed(0);
   motor3.setSpeed(0);
   motor4.setSpeed(0);
+}
+
+void slow() {
+  Serial.println("Slowing Down...");
+  if (speed < 0) speed = 0;  // Ensure speed doesn't go negative
+  speed -= 25;
+  Serial.print("Speed:");
+  Serial.println(speed);
+}
+
+void fast() {
+  Serial.println("Speeding Up...");
+  if (speed > 255) speed = 25;
+  speed += 25;
+  Serial.print("Speed:");
+  Serial.println(speed);
 }
 
 #if defined(CFG_TUH_MAX3421) && CFG_TUH_MAX3421
@@ -162,6 +179,7 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, uint8_t cons
   uint8_t byte12 = hid[11];
   uint8_t byte10 = hid[9];
   uint8_t byte8 = hid[7];
+  uint8_t byte3 = hid[2];
   
   // If the 10th byte is between 0x00 and 0x7F, execute fwds
   if (byte10 >= 0x01 && byte10 <= 0x7F) {
@@ -192,6 +210,14 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, uint8_t cons
 
   if (byte8 == 0x00 && byte10 == 0x00 && byte12 == 0x00) {
     stop();
+  }
+
+  if (byte3 == 0x08) {
+    fast();
+  }
+
+  if (byte3 == 0x04) {
+    slow();
   }
 
   // Continue to request to receive report
