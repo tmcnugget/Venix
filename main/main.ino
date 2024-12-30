@@ -1,17 +1,117 @@
 #include "usbh_helper.h"
 #include "CytronMotorDriver.h"
+#include <U8g2lib.h>
+#ifdef U8X8_HAVE_HW_I2C
+#include <Wire.h>
+#endif
 
 // Define a global variable to store the most recent HID report (20 bytes in this case)
 uint8_t hid[20];  // Adjusted to match the report size of 20 bytes
 int speed = 150;
 
+int sonar = 0;
+
 const int buzzerPin = 22;
+
+// defines pins numbers
+const int echoPin = 16;
+const int trigPin = 17;
+
+// defines variables
+long duration;
+int distance;
+
+U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, /* clock=*/ 17, /* data=*/ 16, /* reset=*/ U8X8_PIN_NONE);    //Low speed I2C
+
+unsigned long previousMillisOLED = 0;
+const long intervalOLED = 1000;
+unsigned long previousMillisLED = 0;
+const long intervalLED = 20;
+unsigned long previousMillisSonar = 0;
+const long intervalSonar = 500;
 
 // Configure the motor driver.
 CytronMD motor1(PWM_PWM, 8, 9);  
 CytronMD motor2(PWM_PWM, 10, 11);
 CytronMD motor3(PWM_PWM, 12, 13);
 CytronMD motor4(PWM_PWM, 14, 15);
+
+void startup() {
+  // Initialize buzzer pin as output
+  pinMode(buzzerPin, OUTPUT);
+
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+  Serial.begin(9600); // Starts the serial communication
+
+  u8g2.begin();
+
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+  Serial.begin(9600); // Starts the serial communication
+
+  u8g2.begin();
+
+  // Initialize buzzer pin as output
+  pinMode(buzzerPin, OUTPUT);
+}
+
+void repeat() {
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - previousMillisSonar >= intervalSonar) {
+    previousMillisSonar = currentMillis;
+    get_distance();
+  }
+  
+  if (currentMillis - previousMillisLED >= intervalLED) {
+    previousMillisLED = currentMillis;
+    update_led();
+  }
+  
+  if (currentMillis - previousMillisOLED >= intervalOLED) {
+    previousMillisOLED = currentMillis;
+    update_oled();
+  }
+}
+
+void get_distance() {
+  // Clears the trigPin
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+
+  // Sets the trigPin on HIGH state for 10 micro seconds
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  // Reads the echoPin, returns the sound wave travel time in microseconds
+  duration = pulseIn(echoPin, HIGH);
+
+  // Calculating the distance
+  distance = duration * 0.034 / 2;
+}
+
+void update_led() {
+
+}
+
+void update_oled() {
+  u8g2.clearBuffer();                   // clear the internal memory
+  u8g2.setFont(u8g2_font_ncenB24_tr);   // choose a suitable font
+  u8g2.drawStr(0,25,"Venix");
+  u8g2.setFont(u8g2_font_ncenB12_tr);   // choose a suitable font
+  u8g2.drawStr(0,50,"Distance:");
+  char distanceStr[10]; // Buffer to hold the string representation of distance
+  sprintf(distanceStr, "%d", distance); // Convert integer to string
+
+  if (sonar == 0) {
+    u8g2.drawStr(85, 50, "Off");
+  } else {
+    u8g2.drawStr(85, 50, distanceStr); // Use the string representation
+  }
+  u8g2.sendBuffer(); 
+}
 
 // Placeholder function for forward
 void forwards() {
@@ -119,15 +219,7 @@ void setup() {
 
   Serial.println("TinyUSB Dual: HID Device Report Example");
 
-  // Initialize buzzer pin as output
-  pinMode(buzzerPin, OUTPUT);
-
-  // Initialize buttons
-  pinMode(btn1, INPUT_PULLUP);
-  pinMode(btn2, INPUT_PULLUP);
-
-  // Play melody during start up
-  play_melody(buzzerPin);
+  startup()
 }
 
 void loop() {
