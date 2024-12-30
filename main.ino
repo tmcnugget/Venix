@@ -216,7 +216,7 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, uint8_t cons
     forwards();
   }
 
-  else if (byte6 >= 0x01 && byte6 <= 0xFF) {
+  else if (byte6 != 0x00) {
     forwards();
   }
 
@@ -225,7 +225,7 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, uint8_t cons
     backwards();
   }
 
-  else if (byte5 >= 0x01 && byte6 <= 0xFF) {
+  else if (byte5 != 0x00) {
     backwards();
   }
 
@@ -247,7 +247,7 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, uint8_t cons
     rleft();
   }
 
-  if (byte8 == 0x00 && byte10 == 0x00 && byte12 == 0x00) {
+  if (byte5 == 0x00 && byte6 == 0x00 && byte8 == 0x00 && byte10 == 0x00 && byte12 == 0x00) {
     stop();
   }
 
