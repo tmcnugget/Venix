@@ -5,6 +5,8 @@
 uint8_t hid[20];  // Adjusted to match the report size of 20 bytes
 int speed = 150;
 
+const int buzzerPin = 22;
+
 // Configure the motor driver.
 CytronMD motor1(PWM_PWM, 8, 9);  
 CytronMD motor2(PWM_PWM, 10, 11);
@@ -77,16 +79,32 @@ void slow() {
   Serial.println("Slowing Down...");
   if (speed < 0) speed = 0;  // Ensure speed doesn't go negative
   speed -= 25;
-  Serial.print("Speed:");
-  Serial.println(speed);
 }
 
 void fast() {
   Serial.println("Speeding Up...");
   if (speed > 255) speed = 25;
   speed += 25;
-  Serial.print("Speed:");
-  Serial.println(speed);
+}
+
+void hhorn() {
+  Serial.println("Horn Pitch High...");
+  tone(buzzerPin, 1000);
+}
+
+void mhorn() {
+  Serial.println("Horn Pitch Medium...");
+  tone(buzzerPin, 500);
+}
+
+void lhorn() {
+  Serial.println("Horn Pitch Low...");
+  tone(buzzerPin, 200);
+}
+
+void mute() {
+  Serial.println("Turnung Horn Off...");
+  noTone(buzzerPin);
 }
 
 #if defined(CFG_TUH_MAX3421) && CFG_TUH_MAX3421
@@ -100,6 +118,16 @@ void setup() {
   USBHost.begin(1);
 
   Serial.println("TinyUSB Dual: HID Device Report Example");
+
+  // Initialize buzzer pin as output
+  pinMode(buzzerPin, OUTPUT);
+
+  // Initialize buttons
+  pinMode(btn1, INPUT_PULLUP);
+  pinMode(btn2, INPUT_PULLUP);
+
+  // Play melody during start up
+  play_melody(buzzerPin);
 }
 
 void loop() {
@@ -219,6 +247,22 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, uint8_t cons
   if (byte3 == 0x04) {
     slow();
   }
+
+ if (byte3 == 0x80) {
+    hhorn();
+ }
+
+if (byte3 == 0xc0) {
+    mhorn();
+}
+ 
+ if (byte3 == 0x40) {
+    lhorn();
+ }
+
+ if (byte3 == 0x00) {
+    mute();
+ }
 
   // Continue to request to receive report
   if (!tuh_hid_receive_report(dev_addr, instance)) {
