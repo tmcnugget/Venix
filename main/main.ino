@@ -1,3 +1,4 @@
+#include <thread>
 #include "usbh_helper.h"
 #include "CytronMotorDriver.h"
 #include <U8g2lib.h>
@@ -179,13 +180,13 @@ void stop() {
 void slow() {
   Serial.println("Slowing Down...");
   if (speed < 0) speed = 0;  // Ensure speed doesn't go negative
-  speed -= 25;
+  speed -= 1;
 }
 
 void fast() {
   Serial.println("Speeding Up...");
-  if (speed > 255) speed = 25;
-  speed += 25;
+  if (speed > 255) speed = 255;
+  speed += 1;
 }
 
 void hhorn() {
