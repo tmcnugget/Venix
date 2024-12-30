@@ -97,6 +97,7 @@ void update_led() {
 }
 
 void update_oled() {
+  Serial.println("Updating OLED");
   u8g2.clearBuffer();                   // clear the internal memory
   u8g2.setFont(u8g2_font_ncenB24_tr);   // choose a suitable font
   u8g2.drawStr(0,25,"Venix");
@@ -351,7 +352,7 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, uint8_t cons
     rleft();
   }
 
-  if (byte5 == 0x00 && byte6 == 0x00 && byte8 == 0x00 && byte10 == 0x00 && byte12 == 0x00) {
+  if (byte5 == 0x00 && byte6 == 0x00 && byte8 == 0x00 && byte10 == 0x00 && byte12 == 0x00 && byte4 != 0x01 && byte4 != 0x02) {
     stop();
   }
 
@@ -379,7 +380,7 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, uint8_t cons
     lhorn();
   }
 
-  if (byte3 == 0x00) {
+  if (byte3 == 0x00 && byte4 != 0x03) {
     mute();
   }
 
