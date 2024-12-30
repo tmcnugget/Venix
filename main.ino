@@ -207,19 +207,30 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, uint8_t cons
   uint8_t byte12 = hid[11];
   uint8_t byte10 = hid[9];
   uint8_t byte8 = hid[7];
+  uint8_t byte6 = hid[5];
+  uint8_t byte5 = hid[4];
   uint8_t byte3 = hid[2];
   
   // If the 10th byte is between 0x00 and 0x7F, execute fwds
   if (byte10 >= 0x01 && byte10 <= 0x7F) {
     forwards();
-  } 
+  }
+
+  else if (byte6 >= 0x01 && byte6 <= 0xFF) {
+    forwards();
+  }
+
   // If the 10th byte is between 0x80 and 0xFF, execute bckwrds
-  else if (byte10 >= 0x80 && byte10 <= 0xFF) {
+   else if (byte10 >= 0x80 && byte10 <= 0xFF) {
+    backwards();
+  }
+
+  else if (byte5 >= 0x01 && byte6 <= 0xFF) {
     backwards();
   }
 
   // If the 8th byte is between 0x00 and 0x7F, execute right
-  if (byte8 >= 0x01 && byte8 <= 0x7F) {
+  else if (byte8 >= 0x01 && byte8 <= 0x7F) {
     right();
   } 
   // If the 8th byte is between 0x80 and 0xFF, execute left
@@ -228,7 +239,7 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, uint8_t cons
   }
 
     // If the 8th byte is between 0x00 and 0x7F, execute right
-  if (byte12 >= 0x01 && byte12 <= 0x7F) {
+  else if (byte12 >= 0x01 && byte12 <= 0x7F) {
     rright();
   } 
   // If the 8th byte is between 0x80 and 0xFF, execute left
