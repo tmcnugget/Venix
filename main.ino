@@ -209,6 +209,7 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, uint8_t cons
   uint8_t byte8 = hid[7];
   uint8_t byte6 = hid[5];
   uint8_t byte5 = hid[4];
+  uint8_t byte4 = hid[3];
   uint8_t byte3 = hid[2];
   
   // If the 10th byte is between 0x00 and 0x7F, execute fwds
@@ -241,9 +242,20 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, uint8_t cons
     // If the 8th byte is between 0x00 and 0x7F, execute right
   else if (byte12 >= 0x01 && byte12 <= 0x7F) {
     rright();
-  } 
+  }
+
+  // If the 8th byte is between 0x00 and 0x7F, execute right
+  else if (byte4 == 0x02) {
+    rright();
+  }  
+  
   // If the 8th byte is between 0x80 and 0xFF, execute left
   else if (byte12 >= 0x80 && byte12 <= 0xFF) {
+    rleft();
+  }
+  
+  // If the 8th byte is between 0x80 and 0xFF, execute left
+  else if (byte4 == 0x01) {
     rleft();
   }
 
@@ -259,21 +271,25 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, uint8_t cons
     slow();
   }
 
- if (byte3 == 0x80) {
+  if (byte3 == 0x80) {
     hhorn();
- }
+  }
 
-if (byte3 == 0xc0) {
+  if (byte3 == 0xc0) {
     mhorn();
-}
- 
- if (byte3 == 0x40) {
-    lhorn();
- }
+  }
 
- if (byte3 == 0x00) {
+  if (byte4 == 0x03) {
+    mhorn();
+  }
+ 
+  if (byte3 == 0x40) {
+    lhorn();
+  }
+
+  if (byte3 == 0x00) {
     mute();
- }
+  }
 
   // Continue to request to receive report
   if (!tuh_hid_receive_report(dev_addr, instance)) {
