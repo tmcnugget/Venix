@@ -1,6 +1,8 @@
-#include "usbh_helper.h"          // USB host helper library for handling USB devices
+#include "usbh_helper.h"         // USB host helper library for handling USB devices
+#include "led.h"                 // Make LED control simpler
+#include "servo.h"               // Make servo control simpler
 #include "CytronMotorDriver.h"   // Motor driver library for motor control
-#include <U8g2lib.h>              // OLED display library for visual output
+#include <U8g2lib.h>             // OLED display library for visual output
 #ifdef U8X8_HAVE_HW_I2C
 #include <Wire.h>
 #endif
@@ -11,7 +13,9 @@ uint8_t hid[20];           // Buffer to store incoming HID reports
 int speed = 150;           // Default motor speed
 int function = 0;          // Set peripheral/mode to default
 
-int hue = 0;               // Hue for LED
+int modeCount = 3;         // Number of different modes (Starting at index 0)
+
+int colour = 0;            // Colour for LED
 
 const int buzzerPin = 22;  // Pin connected to the buzzer for sound output
 
@@ -56,25 +60,47 @@ void rright() { moveMotors(speed, speed, -speed, -speed); }
 void stop() { moveMotors(0, 0, 0, 0); }
 void fast() { speed = constrain(speed + 5, 0, 255); }
 void slow() { speed = constrain(speed - 5, 0, 255); }
+void beep() { tone(buzzerPin, 800); }
 void hhorn() { tone(buzzerPin, 1000); }
 void mhorn() { tone(buzzerPin, 500); }
 void lhorn() { tone(buzzerPin, 200); }
 void mute() { noTone(buzzerPin); }
-void addmode() { function = constrain(function + 1, 0, 2); }
-void subtractmode() { function = constrain(function -1, 0, 2); }
-void addled() { hue = constrain(hue + 5, 0, 255); }
-void subtractled() { hue = constrain(hue - 5, 0, 255); }
-
-// Initial setup for the microcontroller
-void setup() {
-  Serial.begin(115200);       // Start serial communication at 115200 baud rate
-  USBHost.begin(1);           // Initialize USB host for HID devices
-  pinMode(buzzerPin, OUTPUT); // Configure buzzer pin as output
-  u8g2.begin();               // Initialize OLED display
+void addmode() { function = constrain(function + 1, 0, 2); 
+  beep();
+  delay(250);
 }
 
-void loop() {
+void subtractmode() { function = constrain(function -1, 0, 2);
+  beep();
+  delay(250);
+}
+
+// Initial setup for the microcontroller
+void setup() { // @@@@@@@@@@-----MAIN SETUP-----@@@@@@@@@@
+  Serial.begin(115200);       // Start serial communication at 115200 baud rate
+  USBHost.begin(1);           // Initialize USB host for HID devices
+  
+  pinMode(buzzerPin, OUTPUT); // Configure buzzer pin as output
+  
+  u8g2.begin();               // Initialize OLED display
+
+  pixels.begin();
+  pixels.clear();
+  pixels.show();
+
+  servo1.attach(0);
+  servo2.attach(1);
+  servo3.attach(2);
+
+  servo1.write(angle1);
+  servo2.write(angle2);
+  servo3.write(angle3);
+}
+
+void loop() { // @@@@@@@@@@-----MAIN LOOP-----@@@@@@@@@@
   update_oled();  // Continuously update the OLED display
+  pixels.setPixelColor(0, hueToColor(hue));
+  pixels.setPixelColor(1, hueToColor(hue));
 }
 
 // Setup USB subsystem for secondary core
@@ -95,6 +121,7 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, const uint8_
   else Serial.println("Report size exceeds buffer size."); // Error for oversized reports
 
   // Extract bytes from HID report
+  uint8_t byte14 = hid[13];
   uint8_t byte12 = hid[11];
   uint8_t byte10 = hid[9];
   uint8_t byte8 = hid[7];
@@ -137,8 +164,18 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, const uint8_
   }
   
   if (byte3 == 0x10) {
-    if (function == 1) {} // LED control
-    if (function == 2) {} // Arm control
+    if (function == 1) { // LED control
+      if (byte8 >= 0x01 && byte8 <= 0x7F) addhue();
+      if (byte8 >= 0x80 && byte8 <= 0xFF) subtracthue();
+    }
+    if (function == 2) { // Arm control
+      if (byte14 >= 0x01 && byte14 <= 0x7F) addservo1();
+      if (byte14 >= 0x80 && byte14 <= 0xFF) subtractservo1();
+      if (byte10 >= 0x01 && byte10 <= 0x7F) addservo2();
+      if (byte10 >= 0x80 && byte10 <= 0xFF) subtractservo2();
+      if (byte3 == 0x40) addservo3();
+      if (byte3 == 0x80) subtractservo3();
+    }
   }
 
   tuh_hid_receive_report(dev_addr, instance);  // Request next HID report
