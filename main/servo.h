@@ -4,9 +4,9 @@
 #include <Servo.h>
 
 // Servo objects
-extern Servo myservo1;
-extern Servo myservo2;
-extern Servo myservo3;
+extern Servo servo1;
+extern Servo servo2;
+extern Servo servo3;
 
 // Servo angles (global variables)
 extern int angle1;
