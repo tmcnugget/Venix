@@ -13,10 +13,6 @@ uint8_t hid[20];           // Buffer to store incoming HID reports
 int speed = 150;           // Default motor speed
 int function = 0;          // Set peripheral/mode to default
 
-int modeCount = 3;         // Number of different modes (Starting at index 0)
-
-int colour = 0;            // Colour for LED
-
 const int buzzerPin = 22;  // Pin connected to the buzzer for sound output
 
 // Display Setup for OLED
@@ -31,11 +27,18 @@ CytronMD motors[] = {
 };
 
 // Display a message on the OLED screen
-void update_oled(const char* message = "Venix", int x = 0, int y = 25) {
-  u8g2.clearBuffer();                      // Clear previous content
-  u8g2.setFont(u8g2_font_ncenB24_tr);      // Set font style and size
-  u8g2.drawStr(x, y, message);             // Print the message at specified coordinates
-  u8g2.sendBuffer();                       // Send data to the OLED display
+void update_oled() {
+  u8g2.clearBuffer();                               // Clear previous content
+  u8g2.setFont(u8g2_font_ncenB24_tr);               // Set font style and size
+  u8g2.drawStr(0, 25, "Venix");                       // Print the message at specified coordinates
+  u8g2.setFont(u8g2_font_ncenB12_tr);               // Set font style and size
+  u8g2.drawStr(75, 25, "POWERED BY RP2350");          // Print the message at specified coordinates
+  u8g2.setFont(u8g2_font_ncenB24_tr);               // Set font style and size
+  u8g2.drawStr(25, 50, "Fn:");                        // Print the message at specified coordinates
+  if (function == 0) u8g2.drawStr(50, 50, "Passive"); // Print the message at specified coordinates
+  if (function == 1) u8g2.drawStr(50, 50, "LED");     // Print the message at specified coordinates
+  if (function == 2) u8g2.drawStr(50, 50, "P:ARM");   // Print the message at specified coordinates
+  u8g2.sendBuffer();                                // Send data to the OLED display
 }
 
 // Control motor speeds for each motor
