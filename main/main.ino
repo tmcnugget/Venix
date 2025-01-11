@@ -1,15 +1,17 @@
 #include "usbh_helper.h"
 #include "CytronMotorDriver.h"
-#include <U8g2lib.h>
 #ifdef U8X8_HAVE_HW_I2C
 #include <Wire.h>
 #endif
 
 // Define a global variable to store the most recent HID report (20 bytes in this case)
 uint8_t hid[20];  // Adjusted to match the report size of 20 bytes
-int speed = 150;
+float speed = 1.00;
 
 const int buzzerPin = 22;
+
+int fb = 0, lr = 0, r = 0;
+int m1 = 0, m2 = 0, m3 = 0, m4 = 0;
 
 // Configure the motor driver.
 CytronMD motor1(PWM_PWM, 8, 9);  
@@ -17,78 +19,51 @@ CytronMD motor2(PWM_PWM, 10, 11);
 CytronMD motor3(PWM_PWM, 12, 13);
 CytronMD motor4(PWM_PWM, 14, 15);
 
-// Placeholder function for forward
-void forwards() {
-  Serial.println("Moving Fowards");
-  motor1.setSpeed(-speed);
-  motor2.setSpeed(-speed);
-  motor3.setSpeed(-speed);
-  motor4.setSpeed(-speed);
+void hexToDec(byte hexValue, int &result) {
+  // If the MSB is set (negative number), convert using 2's complement
+  if (hexValue & 0x80) {
+    // For negative values, convert the 2's complement representation to negative decimal
+    result = (int)hexValue - 256;  // Convert to signed 8-bit value
+  } else {
+    // If it's not negative, just cast the byte to an int
+    result = (int)hexValue;
+  }
 }
 
-// Placeholder function for bckwrds
-void backwards() {
-  Serial.println("Moving Backwards...");
-  motor1.setSpeed(speed);
-  motor2.setSpeed(speed);
-  motor3.setSpeed(speed);
-  motor4.setSpeed(speed);
+void movemotors() {
+  motor1.setSpeed(m1);
+  motor2.setSpeed(m2);
+  motor3.setSpeed(m3);
+  motor4.setSpeed(m4);
 }
 
-// Placeholder function for left
-void left() {
-  Serial.println("Moving Left");
-  motor1.setSpeed(speed);
-  motor2.setSpeed(-speed);
-  motor3.setSpeed(-speed);
-  motor4.setSpeed(speed);
-}
+void getmotorvalues() {
+  fb *= speed;
+  lr *= speed;
+  r *= speed;
 
-// Placeholder function for right
-void right() {
-  Serial.println("Moving Right...");
-  motor1.setSpeed(-speed);
-  motor2.setSpeed(speed);
-  motor3.setSpeed(speed);
-  motor4.setSpeed(-speed);
-}
+  // Adjust the motor values considering the correct layout:
+  m1 = fb + lr + r;  // Top left motor
+  m2 = fb - lr - r;  // Bottom left motor
+  m3 = fb - lr + r;  // Top right motor
+  m4 = fb + lr - r;  // Bottom right motor
 
-// Placeholder function for left
-void rleft() {
-  Serial.println("Rotating Left");
-  motor1.setSpeed(speed);
-  motor2.setSpeed(-speed);
-  motor3.setSpeed(speed);
-  motor4.setSpeed(-speed);
-}
-
-// Placeholder function for right
-void rright() {
-  Serial.println("Rotating Right...");
-  motor1.setSpeed(-speed);
-  motor2.setSpeed(speed);
-  motor3.setSpeed(-speed);
-  motor4.setSpeed(speed);
-}
-
-void stop() {
-  Serial.println("Stopping...");
-  motor1.setSpeed(0);
-  motor2.setSpeed(0);
-  motor3.setSpeed(0);
-  motor4.setSpeed(0);
+  m1 = constrain(m1, -255, 255);
+  m2 = constrain(m2, -255, 255);
+  m3 = constrain(m3, -255, 255);
+  m4 = constrain(m4, -255, 255);
 }
 
 void slow() {
   Serial.println("Slowing Down...");
   if (speed < 0) speed = 0;  // Ensure speed doesn't go negative
-  speed -= 5;
+  speed -= 0.05;
 }
 
 void fast() {
   Serial.println("Speeding Up...");
-  if (speed > 255) speed = 255;
-  speed += 2;
+  if (speed > 2) speed = 2;
+  speed += 0.05;
 }
 
 void hhorn() {
@@ -207,58 +182,20 @@ void tuh_hid_report_received_cb(uint8_t dev_addr, uint8_t instance, uint8_t cons
   uint8_t byte5 = hid[4];
   uint8_t byte4 = hid[3];
   uint8_t byte3 = hid[2];
+
+  getmotorvalues();
+
+  hexToDec(byte8, lr);
+  Serial.println(lr);
+
+  hexToDec(byte10, fb);
+  Serial.println(fb);
   
-  // If the 10th byte is between 0x00 and 0x7F, execute fwds
-  if (byte10 >= 0x01 && byte10 <= 0x7F) {
-    forwards();
-  }
+  hexToDec(byte12, r);
+  Serial.println(r);
 
-  else if (byte6 != 0x00) {
-    forwards();
-  }
-
-  // If the 10th byte is between 0x80 and 0xFF, execute bckwrds
-   else if (byte10 >= 0x80 && byte10 <= 0xFF) {
-    backwards();
-  }
-
-  else if (byte5 != 0x00) {
-    backwards();
-  }
-
-  // If the 8th byte is between 0x00 and 0x7F, execute right
-  else if (byte8 >= 0x01 && byte8 <= 0x7F) {
-    right();
-  } 
-  // If the 8th byte is between 0x80 and 0xFF, execute left
-  else if (byte8 >= 0x80 && byte8 <= 0xFF) {
-    left();
-  }
-
-    // If the 8th byte is between 0x00 and 0x7F, execute right
-  else if (byte12 >= 0x01 && byte12 <= 0x7F) {
-    rright();
-  }
-
-  // If the 8th byte is between 0x00 and 0x7F, execute right
-  else if (byte4 == 0x02) {
-    rright();
-  }  
+  movemotors();
   
-  // If the 8th byte is between 0x80 and 0xFF, execute left
-  else if (byte12 >= 0x80 && byte12 <= 0xFF) {
-    rleft();
-  }
-  
-  // If the 8th byte is between 0x80 and 0xFF, execute left
-  else if (byte4 == 0x01) {
-    rleft();
-  }
-
-  if (byte5 == 0x00 && byte6 == 0x00 && byte8 == 0x00 && byte10 == 0x00 && byte12 == 0x00 && byte4 != 0x01 && byte4 != 0x02) {
-    stop();
-  }
-
   if (byte3 == 0x08) {
     fast();
   }
