@@ -16,6 +16,8 @@ def main():
     if len(sys.argv) > 5:
         speed += float(sys.argv[4])/10 - float(sys.argv[5])/10
 
+    speed = max(0, min(speed, 2))
+
     lr = round(lrRAW, 3)/2 * speed
     fb = round(fbRAW, 3)/2 * speed
     r = round(rRAW, 3)/2 * speed
