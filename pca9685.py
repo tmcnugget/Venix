@@ -56,3 +56,28 @@ class PCA9685:
 
 pwm = PCA9685(0x40)
 pwm.setPWMFreq(50)
+
+m1 = float(sys.argv[1])
+m2 = float(sys.argv[2])
+m3 = float(sys.argv[3])
+m4 = float(sys.argv[4])
+
+if m1 > 0:
+    pwm.pwm(0, m1)
+else:
+    pwm.pwm(1, abs(m1))
+
+if m2 > 0:
+    pwm.pwm(2, m2)
+else:
+    pwm.pwm(3, abs(m2))
+
+if m3 > 0:
+    pwm.pwm(4, m3)
+else:
+    pwm.pwm(5, abs(m3))
+
+if m4 > 0:
+    pwm.pwm(6, m4)
+else:
+    pwm.pwm(7, abs(m4))
