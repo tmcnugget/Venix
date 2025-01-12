@@ -1,3 +1,5 @@
+import time
+import math
 import sys
 from smbus2 import SMBus
 
