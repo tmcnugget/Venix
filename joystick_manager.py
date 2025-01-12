@@ -46,7 +46,7 @@ def main():
                 print(f"Sending data: {data}")
 
                 # Call motor.py and pass the axis data as arguments
-                subprocess.run(["python3", "Venix/joystick2pwm.py", str(axis_0), str(axis_1), str(axis_2)])
+                subprocess.run(["python3", "Venix/joystick2pwm.py", str(lr), str(fb), str(r), str(zl), str(zr)])
 
             # Sleep to reduce CPU usage (adjust as needed for responsiveness)
             time.sleep(0.01)
