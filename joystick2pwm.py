@@ -1,4 +1,5 @@
 import sys
+import subprocess
 
 def main():
     if len(sys.argv) != 4:
@@ -23,6 +24,8 @@ def main():
     m2 = fb - lr - r
     m3 = fb - lr + r
     m4 = fb + lr - r
+
+    subprocess.run(["python3", "Venix/pca9685.py", str(m1), str(m2), str(m3), str(m4)])
 
 if __name__ == "__main__":
     main()
