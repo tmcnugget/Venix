@@ -1,5 +1,6 @@
 import sys
 import subprocess
+import oled
 
 select = int(sys.argv[1])
 funtion = int(sys.argv[2])
@@ -19,4 +20,4 @@ if select == 1:
             mode -= 1
 
 while True:
-    subprocess.run(["python3", "Venix/oled.py", str(mode)])
+    display_text(mode)
