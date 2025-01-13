@@ -44,14 +44,24 @@ def main():
                 s = joystick.get_button(8)
                 f = joystick.get_button(9)
 
+                if lr < 0:
+                    l = 1
+                    r = 0
+                elif lr > 0:
+                    l = 0
+                    r = 1
+                else:
+                    l = 0
+                    r = 0
+
                 # Format axis data
-                data = f"{lr:.3f} {fb:.3f} {r:.3f} {zl:.3f} {zr:.3f} {s.:3f} {f.:3f}"
+                data = f"{lr:.3f} {fb:.3f} {r:.3f} {zl:.3f} {zr:.3f} {s.:3f} {f.:3f} {l.:3f} {r.:3f}"
                 print(f"{data}")
 
                 # Call motor.py and pass the axis data as arguments
                 subprocess.run(["python3", "Venix/joystick2pwm.py", str(lr), str(fb), str(r), str(zl), str(zr)])
 
-                subprocess.run(["python3", "Venix/mode_manager.py", str(s), str(f)])
+                subprocess.run(["python3", "Venix/mode_manager.py", str(s), str(f), str(l), str(r)])
 
     except KeyboardInterrupt:
         print("Exiting...")
