@@ -55,7 +55,7 @@ def main():
                     r = 0
 
                 # Format axis data
-                data = f"{lr:.3f} {fb:.3f} {r:.3f} {zl:.3f} {zr:.3f} {s.:3f} {f.:3f} {l.:3f} {r.:3f}"
+                data = f"{lr:.3f} {fb:.3f} {r:.3f} {zl:.3f} {zr:.3f} {s:.3f} {f:.3f} {l:.3f} {r:.3f}"
                 print(f"{data}")
 
                 # Call motor.py and pass the axis data as arguments
