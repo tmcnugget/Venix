@@ -4,6 +4,9 @@ import subprocess
 select = int(sys.argv[1])
 funtion = int(sys.argv[2])
 
+l = int(sys.argv[3])
+r = int(sys.argv[4])
+
 mode = 0
 modecount = 2 # Excluding passive
 
