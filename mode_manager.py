@@ -1,3 +1,4 @@
+import time
 import sys
 import subprocess
 import oled
@@ -21,3 +22,4 @@ if select == 1:
 
 while True:
     oled.display_text(mode)
+    time.sleep(0.01)
