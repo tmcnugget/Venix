@@ -22,8 +22,8 @@ def display_text(mode):
         draw.text((5, 0), "Venix", font=large_font, fill="white")    # Large title
         draw.text((5, 40), "Mode:", font=small_font, fill="white")    # Label
         if mode == 0:
-            draw.text((70, 40), "Passive", font=small_font, fill="white") # Mode text
+            draw.text((60, 40), "Passive", font=small_font, fill="white") # Mode text
         if mode == 1:
-            draw.text((70, 40), "LED", font=small_font, fill="white") # Mode text
+            draw.text((60, 40), "LED", font=small_font, fill="white") # Mode text
         if mode == 2:
-            draw.text((70, 40), "Buzzer", font=small_font, fill="white") # Mode text
+            draw.text((60, 40), "Buzzer", font=small_font, fill="white") # Mode text
