@@ -5,7 +5,7 @@ from luma.core.render import canvas
 from PIL import ImageFont
 
 # Function to display multiple lines of text on the OLED
-def display_text():
+def display_text(mode):
     # Create I2C interface
     serial = i2c(port=1, address=0x3C)
 
