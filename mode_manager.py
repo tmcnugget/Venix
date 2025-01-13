@@ -20,4 +20,4 @@ if select == 1:
             mode -= 1
 
 while True:
-    display_text(mode)
+    oled.display_text(mode)
