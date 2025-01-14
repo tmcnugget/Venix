@@ -37,11 +37,11 @@ def main():
                 fb = joystick.get_axis(1)  # Up/Down
                 r = joystick.get_axis(2)  # Rotate
 
-            zl = joystick.get_button(6)
-            zr = joystick.get_button(7)
+                zl = joystick.get_button(6)
+                zr = joystick.get_button(7)
 
-            s = joystick.get_button(8)
-            f = joystick.get_button(9)
+                s = joystick.get_button(8)
+                f = joystick.get_button(9)
 
             if lr < -0.01:
                 lx = 1
