@@ -32,9 +32,10 @@ def main():
                     del joysticks[event.instance_id]
                     print(f"Joystick {event.instance_id} disconnected")
 
-            lr = joystick.get_axis(0)  # Left/Right
-            fb = joystick.get_axis(1)  # Up/Down
-            r = joystick.get_axis(2)  # Rotate
+            for joystick in joysticks.values():
+                lr = joystick.get_axis(0)  # Left/Right
+                fb = joystick.get_axis(1)  # Up/Down
+                r = joystick.get_axis(2)  # Rotate
 
             zl = joystick.get_button(6)
             zr = joystick.get_button(7)
