@@ -1,4 +1,3 @@
-import time
 import sys
 import subprocess
 from luma.oled.device import ssd1306
