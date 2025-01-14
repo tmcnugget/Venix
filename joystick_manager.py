@@ -57,7 +57,7 @@ def main():
 
             subprocess.run(["python3", "Venix/mode_manager.py", str(s), str(f), str(lx), str(rx)])
 
-            subprocess.run(["python3", "Venix/print_manager.py", str(lr), str(fb), str(r), str(zl), str(zr), str(s), str(f), str(lx), str(rx)])
+            print(lr, fb, r, zl, zr, s, f, lx, rx)
 
             time.sleep(0.01)
 
