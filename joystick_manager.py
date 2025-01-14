@@ -45,7 +45,9 @@ def main():
                 zl = joystick.get_button(6)
                 zr = joystick.get_button(7)
 
-            subprocess.run(["python3", "Venix/joystick2pwm.py", str(lr), str(fb), str(r), str(zl), str(zr)])
+            subprocess.Popen(["python3", "Venix/joystick2pwm.py", str(lr), str(fb), str(r), str(zl), str(zr)])
+
+            subprocess.Popen(["python3", "Venix/oled.py"])
 
             print(lr, fb, r, zl, zr)
 
