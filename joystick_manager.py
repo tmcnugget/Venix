@@ -32,34 +32,31 @@ def main():
                     del joysticks[event.instance_id]
                     print(f"Joystick {event.instance_id} disconnected")
 
-            # Process axis data for each connected joystick
-            for joystick in joysticks.values():
-                lr = joystick.get_axis(0)  # Left/Right
-                fb = joystick.get_axis(1)  # Up/Down
-                r = joystick.get_axis(2)  # Rotate
+            lr = joystick.get_axis(0)  # Left/Right
+            fb = joystick.get_axis(1)  # Up/Down
+            r = joystick.get_axis(2)  # Rotate
 
-                zl = joystick.get_button(6)
-                zr = joystick.get_button(7)
+            zl = joystick.get_button(6)
+            zr = joystick.get_button(7)
 
-                s = joystick.get_button(8)
-                f = joystick.get_button(9)
+            s = joystick.get_button(8)
+            f = joystick.get_button(9)
 
-                if lr < 0:
-                    l = 1
-                    r = 0
-                elif lr > 0:
-                    l = 0
-                    r = 1
-                else:
-                    l = 0
-                    r = 0
+            if lr < -0.01:
+                lx = 1
+                rx = 0
+            elif lr > 0.01:
+                lx = 0
+                rx = 1
+            else:
+                lx = 0
+                rx = 0
 
-                # Call motor.py and pass the axis data as arguments
-                subprocess.run(["python3", "Venix/joystick2pwm.py", str(lr), str(fb), str(r), str(zl), str(zr)])
+            subprocess.run(["python3", "Venix/joystick2pwm.py", str(lr), str(fb), str(r), str(zl), str(zr)])
 
-                subprocess.run(["python3", "Venix/mode_manager.py", str(s), str(f), str(l), str(r)])
+            subprocess.run(["python3", "Venix/mode_manager.py", str(s), str(f), str(lx), str(rx)])
 
-                subprocess.run(["python3", "Venix/print_manager.py", str(lr), str(fb), str(r), str(zl), str(zr), str(s), str(f), str(l), str(r)])
+            subprocess.run(["python3", "Venix/print_manager.py", str(lr), str(fb), str(r), str(zl), str(zr), str(s), str(f), str(lx), str(rx)])
 
             time.sleep(0.01)
 
