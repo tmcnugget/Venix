@@ -3,7 +3,7 @@ import subprocess
 
 def main():
     if len(sys.argv) != 6:
-        print("Usage: motor.py <axis_0> <axis_1> <axis_2>")
+        print("Usage: motor.py <axis_0> <axis_1> <axis_2> <zl> <zr>")
         return
 
     # Read axis data from command-line arguments
