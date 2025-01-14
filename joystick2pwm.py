@@ -2,7 +2,7 @@ import sys
 import subprocess
 
 def main():
-    if len(sys.argv) != 4:
+    if len(sys.argv) != 6:
         print("Usage: motor.py <axis_0> <axis_1> <axis_2>")
         return
 
