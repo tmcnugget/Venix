@@ -13,13 +13,13 @@ pygame.joystick.init()
 # A dictionary to keep track of connected joysticks
 joysticks = {}
 
-def main():
-    print("Starting headless joystick controller...")
-
 def deadzone(number):
     if abs(number) < 0.005:  # Deadzone range (-0.005, 0.005)
         return 0
     return number
+
+def main():
+    print("Starting headless joystick controller...")
 
     # Main loop
     try:
