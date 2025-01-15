@@ -6,11 +6,11 @@ A 4WD menacum wheel car for raspberry pi
 
 ## Table of Contents
 
-1. [About the Project](#about-the-project)
+1. [About](#about-venix)
 2. [Features](#features)
 3. [Getting Started](#getting-started)
 4. [Usage](#usage)
-5. [License](#license)
+5. [License](LICENSE)
 
 ---
 
@@ -54,6 +54,4 @@ Download Raspberry Pi imager:
 - [For Windows](https://downloads.raspberrypi.org/imager/imager_latest.exe)
 - [For MacOS](https://downloads.raspberrypi.org/imager/imager_latest.dmg)
 - [For Ubuntu for x86](https://downloads.raspberrypi.org/imager/imager_latest_amd64.deb)
-- For Raspberry Pi OS
-```bash
-sudo apt install rpi-imager
+- For Raspberry Pi OS ```sudo apt install rpi-imager```
