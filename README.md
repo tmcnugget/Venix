@@ -56,9 +56,9 @@ Follow these steps to set up your project locally:
 - [For Ubuntu for x86](https://downloads.raspberrypi.org/imager/imager_latest_amd64.deb)
 - For Raspberry Pi OS ```sudo apt install rpi-imager```
 
-#### Get the OS:
+Get the OS:
 - Download [Venos](Venos)
 - Click the download icon
 
-#### Flash the OS:
-
+Flash the OS:
+Open Raspberry Pi Imager. Choose the *Operating System* tab and select *Use custom*
