@@ -61,16 +61,21 @@ Built for exploration and experimentation, Venix serves as both a learning platf
 | Function | Component | Where to buy |
 | --- | --- | --- |
 | Main PSU | 8x AA @ 12V | [ThePiHut](https://thepihut.com/products/8aa-holder)
+| Main PSU cable | 9V connector clip | [ThePiHut](https://thepihut.com/products/9v-battery-connector-clip-with-bare-wires)
+| Main PSU jumper cable | 2 Dupont connecter cables | [ThePiHut](https://thepihut.com/products/thepihuts-jumper-bumper-pack-120pcs-dupont-wire)
 | Main computer | Raspberry Pi Zero (WH) | [ThePiHut](https://thepihut.com/products/raspberry-pi-zero-wh-with-pre-soldered-header)
 | Motor | Micro metal gearmotor (1:75) | [ThePiHut](https://thepihut.com/products/micro-metal-gear-motor-with-connector-75-1)
 | Motor driver | Cytron MDD3A | [ThePiHut](https://thepihut.com/products/3a-4v-16v-2-channel-dc-motor-driver?variant=31985056907326)
 | PWM driver | Waveshare PCA9685 | [ThePiHut](https://thepihut.com/products/16-channel-servo-driver-hat-for-raspberry-pi-12-bit-i2c?variant=32138518364222)
 | OLED | 1.3" I2C OLED | [ThePiHut](https://thepihut.com/products/1-3-oled-display-module-128x64)
-| M3 screws | M3 Screws (20x) | [ThePiHut](https://thepihut.com/products/m3-20mm-pozi-pan-head-screws)
-| M3 nuts| M3 Nuts (20x) | [ThePiHut](https://thepihut.com/products/m3-steel-nuts-10-pack)
-| M2 screws | M2 Screws (10x) | [ThePiHut](https://thepihut.com/products/nylon-slotted-cheese-head-screws-m2-x-20mm-10-pack)
-| M2 nuts | M2 Nuts (10x) | [ThePiHut](https://thepihut.com/products/nylon-nut-m2-10-pack)
-| Motor mount | Plastic motor mount (4x) | [ThePiHut](https://thepihut.com/products/micro-metal-gearmotor-extended-bracket-pair)
+| Mecanum wheels (left) | Mecanum wheels (left) | [ThePiHut](https://thepihut.com/products/metal-mecanum-wheel-with-motor-shaft-coupling-65mm-left)
+| Mecanum wheels (right) | Mecanum wheels (right) | [ThePiHut](https://thepihut.com/products/metal-mecanum-wheel-with-motor-shaft-coupling-65mm-right)
+| M4 screws | M4 screws for mecanum wheels (4x) | [Screwfix](https://www.screwfix.com/p/easyfix-cap-head-socket-screws-a2-stainless-steel-m4-x-16mm-50-pack/2649t)
+| M3 screws | M3 screws (20x) | [ThePiHut](https://thepihut.com/products/m3-20mm-pozi-pan-head-screws)
+| M3 nuts| M3 nuts (20x) | [ThePiHut](https://thepihut.com/products/m3-steel-nuts-10-pack)
+| M2 screws | M2 screws (10x) | [ThePiHut](https://thepihut.com/products/nylon-slotted-cheese-head-screws-m2-x-20mm-10-pack)
+| M2 nuts | M2 nuts (10x) | [ThePiHut](https://thepihut.com/products/nylon-nut-m2-10-pack)
+| Motor mount | Plastic motor mount (4x) | [ThePiHut](https://thepihut.com/products/pololu-micro-metal-gearmotor-bracket-pair-black)
 
 ## Usage
 - 12V, 2 hour runtime
