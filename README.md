@@ -44,10 +44,17 @@ Built for exploration and experimentation, Venix serves as both a learning platf
 ## Features
 
 - ✅ **Feedback:** OLED Displaying information
-- 🚀 **Precise:** With 100^100 Varible motor sets, you can drive anywhere!
+- 🚀 **Precise:** With axis combined movments, you can drive anywhere!
 - 🔒 **Roaming mode:** Secure and robust: No need for wi-fi, driven by a wireless gamepad
 
 ---
+
+## Usage
+- 12V, 2 hour runtime
+- ~2cm distance from ground to cables (to be fixed)
+- 65cm metal wheels
+- Plastic frame
+- Signal antenna
 
 ## Getting Started
 
