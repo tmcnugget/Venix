@@ -8,9 +8,10 @@ A 4WD menacum wheel car for raspberry pi
 
 1. [About](#about-venix)
 2. [Features](#features)
-3. [Getting Started](#getting-started)
-4. [Usage](#usage)
-5. [License](LICENSE)
+3. [Specifications](#specifications)
+4. [Getting Started](#getting-started)
+5. [Usage](#usage)
+6. [License](LICENSE)
 
 ---
 
@@ -44,8 +45,14 @@ Built for exploration and experimentation, Venix serves as both a learning platf
 ## Features
 
 - ✅ **Feedback:** OLED Displaying information
-- 🚀 **Precise:** With axis combined movments, you can drive anywhere!
-- 🔒 **Roaming mode:** Secure and robust: No need for wi-fi, driven by a wireless gamepad
+- ✅ **Precise:** With axis combined movments, you can drive anywhere!
+- ✅ **Relaible:** Rated for 6 months of downtime
+- ✅ **Input:** Custom ThePiHut USB wireless controller
+- 🛜 **Roaming mode:** No need for wi-fi, driven by a wireless gamepad
+- 🍓 **Main chip:** The powerful yet small Raspberry Pi Zero 2W
+- 🔌 **Power supply:** Eight AA in series to produce a whopping 12V
+- 🛞 **Wheels:** Metal mecanum wheels; very strong!
+- 🚀 **Motor speed:** Peaking at 380RPM@12V
 
 ---
 
