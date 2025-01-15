@@ -46,9 +46,7 @@ Whether you're experimenting with unique motion mechanics or developing an innov
 
 ## Getting Started
 
-Follow these steps to set up your project locally:
-
-### Flash the OS:
+Follow these steps to set up your project 
 
 #### Download Raspberry Pi imager:
 - [For Windows](https://downloads.raspberrypi.org/imager/imager_latest.exe)
@@ -62,7 +60,7 @@ Follow these steps to set up your project locally:
 
 #### Flash the OS:
 
-Open Raspberry Pi Imager. Choose the *Operating System* tab and select *Use custom*. When prompted, choose [Venos](venos.img) and flash it to the SD card that you have connected to your computer.
+Open [Raspberry Pi Imager](#download-raspberry-pi-imager:). Choose the *Operating System* tab and select *Use custom*. When prompted, choose [Venos](venos.img) and flash it to the SD card that you have connected to your computer.
 
 #### Read the OS:
 
