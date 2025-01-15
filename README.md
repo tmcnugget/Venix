@@ -60,7 +60,7 @@ Follow these steps to set up your project
 
 #### Flash the OS:
 
-Open [Raspberry Pi Imager](#download-raspberry-pi-imager:). Choose the *Operating System* tab and select *Use custom*. When prompted, choose [Venos](venos.img) and flash it to the SD card that you have connected to your computer.
+Open [Raspberry Pi Imager](#download-raspberry-pi-imager). Choose the *Operating System* tab and select *Use custom*. When prompted, choose [Venos](venos.img) and flash it to the SD card that you have connected to your computer.
 
 #### Read the OS:
 
