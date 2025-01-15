@@ -51,8 +51,9 @@ Follow these steps to set up your project locally:
 ### Flash the OS:
 
 Download Raspberry Pi imager:
-[For Windows](https://downloads.raspberrypi.org/imager/imager_latest.exe)
-[For MacOS](https://downloads.raspberrypi.org/imager/imager_latest.dmg)
-[For Ubuntu for x86](https://downloads.raspberrypi.org/imager/imager_latest_amd64.deb)
-For Raspberry Pi OS ```bash
+- [For Windows](https://downloads.raspberrypi.org/imager/imager_latest.exe)
+- [For MacOS](https://downloads.raspberrypi.org/imager/imager_latest.dmg)
+- [For Ubuntu for x86](https://downloads.raspberrypi.org/imager/imager_latest_amd64.deb)
+- For Raspberry Pi OS
+```bash
 sudo apt install rpi-imager
