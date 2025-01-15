@@ -21,6 +21,8 @@ def deadzone(number):
 def main():
     print("Starting headless joystick controller...")
 
+    subprocess.Popen(["python3", "Venix/oled.py"])
+
     # Main loop
     try:
         while True:
@@ -47,11 +49,9 @@ def main():
 
             subprocess.Popen(["python3", "Venix/joystick2pwm.py", str(lr), str(fb), str(r), str(zl), str(zr)])
 
-            subprocess.Popen(["python3", "Venix/oled.py"])
-
             print(lr, fb, r, zl, zr)
 
-            time.sleep(0.1)
+            time.sleep(0.01)
 
     except KeyboardInterrupt:
         print("Exiting...")
