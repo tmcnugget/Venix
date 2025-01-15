@@ -18,11 +18,16 @@ A 4WD menacum wheel car for raspberry pi
 
 ### Description
 
-**Venix** is a 4WD *omni-wheel* robot designed for precise multidirectional movement and advanced navigation. Equipped with mecanum wheels and a custom control system, Venix combines forward, lateral, *and* rotational motion for versatile applications in robotics exploration and automation.
+**Venix** is a custom-built, versatile 4WD robot car designed to showcase the power of precision control and adaptability in motion. At its core, Venix features a set of mecanum wheels that provide omnidirectional mobility, enabling smooth movement in any direction, including diagonal and rotational paths. Powered by a Raspberry Pi Zero 2 W, Venix relies on cutting-edge technology to execute commands and process data seamlessly. The car’s sleek design and impressive capabilities make it ideal for robotics enthusiasts looking to explore advanced locomotion.
 
-The robot features a custom control system that dynamically adjusts motor values to execute combined movements, such as rotating while moving forward, making it highly versatile for a range of applications. Venix's robust design and functionality make it ideal for robotics exploration, automation tasks, and real-world problem-solving scenarios.
+The heart of Venix’s drive system lies in its motor control setup. Each of the four 12V motors is controlled by two Cytron MDD3A dual-channel motor drivers, ensuring robust and efficient operation. These motor drivers, in turn, are managed by a PCA9685 PWM controller, allowing for precise speed and direction adjustments. This integration guarantees smooth transitions and responsive handling, critical for the precise movements required by mecanum-wheel systems. The 12V power supply is delivered through a reliable pack of AA batteries, ensuring portability and ample energy to sustain long operating sessions.
 
-Whether you're experimenting with unique motion mechanics or developing an innovative project, Venix serves as a platform for creativity, adaptability, and engineering excellence.
+Control over Venix is achieved wirelessly using a game controller, which offers intuitive and responsive command input. This wireless interface enables seamless interaction with the Raspberry Pi, allowing users to control forward, backward, lateral, and rotational movements effortlessly. The programming logic is fine-tuned to interpret the controller’s inputs and convert them into synchronized motor operations, ensuring the car responds accurately to even the most complex navigation demands.
+
+Venix’s ability to combine movement vectors—such as forward motion with simultaneous rotation—is a standout feature that underscores its advanced capabilities. The robot calculates motor values dynamically through a custom function, which processes input parameters. These are multiplied by a speed factor, enabling Venix to adjust its responsiveness and adapt to various terrains or operational requirements. This level of control ensures a seamless blend of agility and stability.
+
+Built for exploration and experimentation, Venix serves as both a learning platform and a showcase of engineering ingenuity. Its modular design allows for easy modifications and upgrades, making it a perfect candidate for integrating sensors, cameras, or additional functionality. Whether used for educational purposes, competitions, or personal projects, Venix is a testament to the creativity and precision that define modern robotics.
+
 
 ### Built With
 
