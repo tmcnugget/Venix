@@ -56,12 +56,14 @@ Follow these steps to set up your project locally:
 - [For Ubuntu for x86](https://downloads.raspberrypi.org/imager/imager_latest_amd64.deb)
 - For Raspberry Pi OS ```sudo apt install rpi-imager```
 
-Get the OS:
+#### Get the OS:
 - Download [Venos](Venos)
 - Click the download icon
 
-Flash the OS:
+#### Flash the OS:
+
 Open Raspberry Pi Imager. Choose the *Operating System* tab and select *Use custom*. When prompted, choose [Venos](venos.img) and flash it to the SD card that you have connected to your computer.
 
-Read the OS:
+#### Read the OS:
+
 When it has finished writing to the SD card, eject it and connect it to Venix.
