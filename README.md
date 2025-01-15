@@ -7,8 +7,8 @@ A 4WD menacum wheel car for raspberry pi
 ## Table of Contents
 
 1. [About](#about-venix)
-2. [Features](#part-list)
-3. [Specifications](#specifications)
+2. [Features](#features)
+3. [Part List (Build your own)](#part-list)
 4. [Getting Started](#getting-started)
 5. [Usage](#usage)
 6. [License](LICENSE)
