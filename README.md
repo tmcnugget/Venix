@@ -19,7 +19,7 @@ A 4WD menacum wheel car for raspberry pi
 
 ### Description
 
-**Venix** is a custom-built, versatile 4WD robot car designed to showcase the power of precision control and adaptability in motion. At its core, Venix features a set of mecanum wheels that provide omnidirectional mobility, enabling smooth movement in any direction, including diagonal and rotational paths. Powered by a Raspberry Pi Zero 2 W, Venix relies on cutting-edge technology to execute commands and process data seamlessly. The car’s sleek design and impressive capabilities make it ideal for robotics enthusiasts looking to explore advanced locomotion.
+**Venix** is a custom-built, versatile 4WD robot car designed to showcase the power of precision control and adaptability in motion. At its core, Venix features a set of mecanum wheels that provide omnidirectional mobility, enabling smooth movement in any direction, including diagonal and rotational paths. Powered by a Raspberry Pi Zero W, Venix relies on cutting-edge technology to execute commands and process data seamlessly. The car’s sleek design and impressive capabilities make it ideal for robotics enthusiasts looking to explore advanced locomotion.
 
 The heart of Venix’s drive system lies in its motor control setup. Each of the four 12V motors is controlled by two Cytron MDD3A dual-channel motor drivers, ensuring robust and efficient operation. These motor drivers, in turn, are managed by a PCA9685 PWM controller, allowing for precise speed and direction adjustments. This integration guarantees smooth transitions and responsive handling, critical for the precise movements required by mecanum-wheel systems. The 12V power supply is delivered through a reliable pack of AA batteries, ensuring portability and ample energy to sustain long operating sessions.
 
@@ -55,6 +55,22 @@ Built for exploration and experimentation, Venix serves as both a learning platf
 - 🚀 **Motor speed:** Peaking at 380RPM@12V
 
 ---
+
+## Part List
+
+| Function | Component | Where to buy |
+| --- | --- | --- |
+| Main PSU | 8x AA @ 12V | [ThePiHut](https://thepihut.com/products/8aa-holder)
+| Main computer | Raspberry Pi Zero (WH) | [ThePiHut](https://thepihut.com/products/raspberry-pi-zero-wh-with-pre-soldered-header)
+| Motor | Micro metal gearmotor (1:75) | [ThePiHut](https://thepihut.com/products/micro-metal-gear-motor-with-connector-75-1)
+| Motor driver | Cytron MDD3A | [ThePiHut](https://thepihut.com/products/3a-4v-16v-2-channel-dc-motor-driver?variant=31985056907326)
+| PWM driver | Waveshare PCA9685 | [ThePiHut](https://thepihut.com/products/16-channel-servo-driver-hat-for-raspberry-pi-12-bit-i2c?variant=32138518364222)
+| OLED | 1.3" I2C OLED | [ThePiHut](https://thepihut.com/products/1-3-oled-display-module-128x64)
+| M3 screws | M3 Screws (20x) | [ThePiHut](https://thepihut.com/products/m3-20mm-pozi-pan-head-screws)
+| M3 nuts| M3 Nuts (20x) | [ThePiHut](https://thepihut.com/products/m3-steel-nuts-10-pack)
+| M2 screws | M2 Screws (10x) | [ThePiHut](https://thepihut.com/products/nylon-slotted-cheese-head-screws-m2-x-20mm-10-pack)
+| M2 nuts | M2 Nuts (10x) | [ThePiHut](https://thepihut.com/products/nylon-nut-m2-10-pack)
+| Motor mount | Plastic motor mount (4x) | [ThePiHut](https://thepihut.com/products/micro-metal-gearmotor-extended-bracket-pair)
 
 ## Usage
 - 12V, 2 hour runtime
