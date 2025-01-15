@@ -55,3 +55,6 @@ Download Raspberry Pi imager:
 - [For MacOS](https://downloads.raspberrypi.org/imager/imager_latest.dmg)
 - [For Ubuntu for x86](https://downloads.raspberrypi.org/imager/imager_latest_amd64.deb)
 - For Raspberry Pi OS ```sudo apt install rpi-imager```
+
+Flash the OS:
+- Download [Venos](
