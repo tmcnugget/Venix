@@ -61,4 +61,7 @@ Get the OS:
 - Click the download icon
 
 Flash the OS:
-Open Raspberry Pi Imager. Choose the *Operating System* tab and select *Use custom*
+Open Raspberry Pi Imager. Choose the *Operating System* tab and select *Use custom*. When prompted, choose [Venos](venos.img) and flash it to the SD card that you have connected to your computer.
+
+Read the OS:
+When it has finished writing to the SD card, eject it and connect it to Venix.
