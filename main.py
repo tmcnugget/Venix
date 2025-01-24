@@ -2,7 +2,6 @@ import os
 import pygame
 import subprocess
 import time
-import smbus2
 from mdd3a import MDD3A
 
 # Set the SDL video driver to dummy for headless operation
