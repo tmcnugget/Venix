@@ -32,16 +32,12 @@ class MDD3A:
             self.pca9685.pwm(7, abs(m4))
 
     def calculateMotors(self, speed, lr, fb, r):
-        # Scale the input values with speed
-        lr_scaled = lr / 2 * speed
-        fb_scaled = fb / 2 * speed
-        r_scaled = r / 2 * speed
 
         # Calculate motor values and store them as instance attributes
-        self.m1 = fb_scaled + lr_scaled + r_scaled
-        self.m2 = fb_scaled - lr_scaled - r_scaled
-        self.m3 = fb_scaled - lr_scaled + r_scaled
-        self.m4 = fb_scaled + lr_scaled - r_scaled
+        self.m1 = fb / 2 * speed + lr / 2 * speed + r / 2 * speed
+        self.m2 = fb / 2 * speed - lr / 2 * speed - r / 2 * speed
+        self.m3 = fb / 2 * speed - lr / 2 * speed + r / 2 * speed
+        self.m4 = fb / 2 * speed + lr / 2 * speed - r / 2 * speed
 
         return self.m1, self.m2, self.m3, self.m4
 
