@@ -13,6 +13,8 @@ pygame.joystick.init()
 
 mdd3a = MDD3A()
 
+speed = 0
+
 # A dictionary to keep track of connected joysticks
 joysticks = {}
 
@@ -20,6 +22,15 @@ def deadzone(number):
     if abs(number) < 0.005:  # Deadzone range (-0.005, 0.005)
         return 0
     return number
+
+def setSpeed(zr, zl, speed):
+    """Adjusts the speed based on joystick button inputs."""
+    global speed  # Access the global speed variable
+    if zr == 1:
+        speed += 0.1
+    elif zl == 1:
+        speed -= 0.1
+    return speed
 
 def main():
     print("Starting headless joystick controller...")
@@ -47,12 +58,14 @@ def main():
                 fb = deadzone(round(joystick.get_axis(1), 3)) # Up/Down
                 r = deadzone(round(joystick.get_axis(2), 3)) # Rotate
 
-                zl = joystick.get_button(6) / 10
-                zr = joystick.get_button(7) / 10
+                zl = joystick.get_button(6)
+                zr = joystick.get_button(7)
 
             m1, m2, m3, m4 = mdd3a.calculateMotors(speed, lr, fb, r)
 
             print(f"Calculated Motor Values: M1={m1}, M2={m2}, M3={m3}, M4={m4}")
+
+            speed = setSpeed(zr, zl, speed)
             
             mdd3a.setMotors(m1, m2, m3, m4)
 
