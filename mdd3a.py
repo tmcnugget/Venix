@@ -17,9 +17,6 @@ class MDD3A:
             else:
                 self.pwm.pwm(i * 2 + 1, abs(m))
 
-    def getSpeed(self, increment, decrement):
-        self.speed = max(0, min(self.speed + increment/10 - decrement/10, 2))
-
     def calculateMotors(self, speed, lr, fb, r):
         # Scale the input values with speed
         lr_scaled = lr / 2 * speed
@@ -35,4 +32,4 @@ class MDD3A:
         return self.m1, self.m2, self.m3, self.m4
 
     def setMotors(self, m1, m2, m3, m4):
-        self.setPWM(m1, m2, m3, m4)
+        self.pwm(m1, m2, m3, m4)
