@@ -19,7 +19,7 @@ class PCA9685:
         self.write(LED0_OFF_L + 4 * channel, off & 0xFF)
         self.write(LED0_OFF_H + 4 * channel, off >> 8)
 
-    def setPWM(self, channel, value):
+    def pwm(self, channel, value):
         """Set PWM using a normalized value (0.0 to 1.0)."""
         if not 0.0 <= value <= 1.0:
             raise ValueError("Value must be between 0.0 and 1.0")
