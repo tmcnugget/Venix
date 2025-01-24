@@ -1,4 +1,4 @@
-import smbus
+from smbus2 import SMBus
 import time
 
 class PCA9685:
