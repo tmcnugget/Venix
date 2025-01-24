@@ -71,8 +71,6 @@ def main():
             mdd3a.calculateMotors(lr, fb, r)
 
             print(f"Calculated Motor Values: M1={m1}, M2={m2}, M3={m3}, M4={m4}")
-            
-            mdd3a.setMotors(m1, m2, m3, m4)
 
             print(lr, fb, r, zl, zr)
 
