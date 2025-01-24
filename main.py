@@ -60,11 +60,11 @@ def main():
                 zl = joystick.get_button(6)
                 zr = joystick.get_button(7)
 
+                speed = setSpeed(zr, zl, speed)
+
             m1, m2, m3, m4 = mdd3a.calculateMotors(speed, lr, fb, r)
 
             print(f"Calculated Motor Values: M1={m1}, M2={m2}, M3={m3}, M4={m4}")
-
-            speed = setSpeed(zr, zl, speed)
             
             mdd3a.setMotors(m1, m2, m3, m4)
 
