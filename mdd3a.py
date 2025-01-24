@@ -10,12 +10,12 @@ class MDD3A:
         self.m3 = 0
         self.m4 = 0
 
-    def setPWM(self, *motors):
+    def pwm(self, *motors):
         for i, m in enumerate(motors):
             if m >= 0:
-                self.pwm.setPWM(i * 2, m)
+                self.pwm.pwm(i * 2, m)
             else:
-                self.pwm.setPWM(i * 2 + 1, abs(m))
+                self.pwm.pwm(i * 2 + 1, abs(m))
 
     def getSpeed(self, increment, decrement):
         self.speed = max(0, min(self.speed + increment/10 - decrement/10, 2))
