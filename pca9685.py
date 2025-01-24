@@ -1,5 +1,6 @@
 from smbus2 import SMBus
 import time
+import math
 
 class PCA9685:
     _SUBADR1 = 0x02
