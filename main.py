@@ -25,7 +25,6 @@ def deadzone(number):
 
 def setSpeed(zr, zl, speed):
     """Adjusts the speed based on joystick button inputs."""
-    global speed  # Access the global speed variable
     if zr == 1:
         speed += 0.1
     elif zl == 1:
