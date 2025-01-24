@@ -29,6 +29,10 @@ def setSpeed(zr, zl, speed):
         speed += 0.1
     elif zl == 1:
         speed -= 0.1
+
+    # Clamp speed to be between 0 and 2
+    speed = max(0, min(2, speed))
+
     return speed
 
 def main():
