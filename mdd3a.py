@@ -2,8 +2,8 @@ class MDD3A:
     from pca9685 import PCA9685
 
     def __init__(self, address=0x40, frequency=50):
-        self.pwm = self.PCA9685(address)
-        self.pwm.setPWMFreq(frequency)
+        self.pca9685 = self.PCA9685(address)
+        self.pca9685.setPWMFreq(frequency)
         self.speed = 1
         self.m1 = 0
         self.m2 = 0
@@ -13,9 +13,9 @@ class MDD3A:
     def pwm(self, *motors):
         for i, m in enumerate(motors):
             if m >= 0:
-                self.pwm.pwm(i * 2, m)
+                self.pca9685.pwm(i * 2, m)
             else:
-                self.pwm.pwm(i * 2 + 1, abs(m))
+                self.pca9685.pwm(i * 2 + 1, abs(m))
 
     def calculateMotors(self, speed, lr, fb, r):
         # Scale the input values with speed
