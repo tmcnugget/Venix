@@ -34,4 +34,4 @@ class MDD3A:
         self.m3 = fb - lr + r
         self.m4 = fb + lr - r
 
-        self.pwm(m1, m2, m3, m4)
+        self.pwm(self.m1, self.m2, self.m3, self.m4)
