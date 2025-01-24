@@ -22,6 +22,7 @@ class PCA9685:
         self.address = address
         self.debug = debug
         self.write(self._MODE1, 0x00)
+        self.PWM_RESOLUTION = 4096
 
     def write(self, reg, value):
         self.bus.write_byte_data(self.address, reg, value)
