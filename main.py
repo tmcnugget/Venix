@@ -59,9 +59,9 @@ def main():
                     print(f"Joystick {event.instance_id} disconnected")
 
             for joystick in joysticks.values():
-                lr = deadzone(round(joystick.get_axis(0), 3)) # Left/Right
-                fb = deadzone(round(joystick.get_axis(1), 3)) # Up/Down
-                r = deadzone(round(joystick.get_axis(2), 3)) # Rotate
+                lr = deadzone(round(joystick.get_axis(0), 3)) / 2 * speed # Left/Right
+                fb = deadzone(round(joystick.get_axis(1), 3)) / 2 * speed # Up/Down
+                r = deadzone(round(joystick.get_axis(2), 3)) / 2 * speed # Rotate
 
                 zl = joystick.get_button(6)
                 zr = joystick.get_button(7)
