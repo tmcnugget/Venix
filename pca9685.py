@@ -2,6 +2,20 @@ import smbus
 import time
 
 class PCA9685:
+    _SUBADR1 = 0x02
+    _SUBADR2 = 0x03
+    _SUBADR3 = 0x04
+    _MODE1 = 0x00
+    _PRESCALE = 0xFE
+    _LED0_ON_L = 0x06
+    _LED0_ON_H = 0x07
+    _LED0_OFF_L = 0x08
+    _LED0_OFF_H = 0x09
+    _ALLLED_ON_L = 0xFA
+    _ALLLED_ON_H = 0xFB
+    _ALLLED_OFF_L = 0xFC
+    _ALLLED_OFF_H = 0xFD
+    
     def __init__(self, address, bus=None):
         self.address = address
         self.bus = smbus.SMBus(1) if bus is None else bus
