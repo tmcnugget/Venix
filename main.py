@@ -50,13 +50,11 @@ def main():
                 zl = joystick.get_button(6) / 10
                 zr = joystick.get_button(7) / 10
 
-            m1, m2, m3, m4 = mdd3a.calculateMotors(lr, fb, r)
+            m1, m2, m3, m4 = mdd3a.calculateMotors(speed, lr, fb, r)
 
             print(f"Calculated Motor Values: M1={m1}, M2={m2}, M3={m3}, M4={m4}")
             
             mdd3a.setMotors(m1, m2, m3, m4)
-
-            mdd3a.getSpeed(increment=zr, decrement=zl)
 
             print(lr, fb, r, zl, zr)
 
