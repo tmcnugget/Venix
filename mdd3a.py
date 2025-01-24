@@ -10,12 +10,26 @@ class MDD3A:
         self.m3 = 0
         self.m4 = 0
 
-    def pwm(self, *motors):
-        for i, m in enumerate(motors):
-            if m >= 0:
-                self.pca9685.pwm(i * 2, m)
-            else:
-                self.pca9685.pwm(i * 2 + 1, abs(m))
+    def pwm(self, m1, m2, m3, m4):
+        if m1 >= 0:
+            self.pca9685.pwm(0, m1)
+        else:
+            self.pca9685.pwm(1, abs(m1))
+
+        if m2 >= 0:
+            self.pca9685.pwm(2, m2)
+        else:
+            self.pca9685.pwm(3, abs(m2))
+
+        if m3 >= 0:
+            self.pca9685.pwm(4, m3)
+        else:
+            self.pca9685.pwm(5, abs(m3))
+
+        if m4 >= 0:
+            self.pca9685.pwm(6, m4)
+        else:
+            self.pca9685.pwm(7, abs(m4))
 
     def calculateMotors(self, speed, lr, fb, r):
         # Scale the input values with speed
