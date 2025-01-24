@@ -1,14 +1,27 @@
 import sys
-import subprocess
+from pca9685 import PCA9685
+
+pwm = PCA9685(0x40)
+pwm.setPWMFreq(50)
+
+speed = 1
 
 def main():
-    if len(sys.argv) != 6:
-        print("Usage: motor.py <axis_0> <axis_1> <axis_2> <zl> <zr>")
-        return
+    getSpeed()
+    calculateMotors()  
+    setPWM(m1, m2, m3, m4)
 
-    speed = 1
+def setPWM(*motors):
+    for i, m in enumerate(motors):
+        if m >= 0:
+            pwm.setPWM(i * 2, m)
+        else:
+            pwm.setPWM(i * 2 + 1, abs(m))
+
+def getSpeed():
     speed = max(0, min(speed + float(sys.argv[4])/10 - float(sys.argv[5])/10, 2))
 
+def calculateMotors():
     lr = float(sys.argv[1])/2 * speed
     fb = float(sys.argv[2])/2 * speed
     r = float(sys.argv[3])/2 * speed
@@ -17,8 +30,6 @@ def main():
     m2 = fb - lr - r
     m3 = fb - lr + r
     m4 = fb + lr - r
-
-    subprocess.Popen(["python3", "Venix/pca9685.py", str(m1), str(m2), str(m3), str(m4)])
 
 if __name__ == "__main__":
     main()
