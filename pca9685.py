@@ -1,5 +1,7 @@
+import smbus2
+import time
+
 class PCA9685:
-    import smbus2
     def __init__(self, address, bus=None):
         self.address = address
         self.bus = smbus.SMBus(1) if bus is None else bus
