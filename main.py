@@ -34,6 +34,8 @@ def setSpeed(zr, zl, speed):
 def main():
     print("Starting headless joystick controller...")
 
+    global speed
+    
     subprocess.Popen(["python3", "Venix/oled.py"])
 
     # Main loop
