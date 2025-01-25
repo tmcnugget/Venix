@@ -11,8 +11,8 @@ os.environ["SDL_VIDEODRIVER"] = "dummy"
 pygame.init()
 pygame.joystick.init()
 
-pca9685 = PCA9685(address)
-pca9685.setPWMFreq(frequency)
+pca9685 = PCA9685(0x40)
+pca9685.setPWMFreq(50)
 
 speed = 0
 
