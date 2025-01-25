@@ -48,6 +48,8 @@ def setMotors(pca9685, lr, fb, r):
     else:
         pca9685.pwm(7, abs(m4))
 
+    print(m1, m2, m3, m4)
+
 def main():
     speed = 1
     
