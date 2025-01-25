@@ -62,7 +62,7 @@ def main():
 
                 speed = max(0, min(2, speed))
 
-                mdd3a.calculateMotors(lr, fb, r)
+                mdd3a.setMotors(lr, fb, r)
 
                 print(lr, fb, r, zl, zr)
 
