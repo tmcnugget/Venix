@@ -23,18 +23,6 @@ def deadzone(number):
         return 0
     return number
 
-def setSpeed(zr, zl, speed):
-    """Adjusts the speed based on joystick button inputs."""
-    if zr == 1:
-        speed += 0.1
-    elif zl == 1:
-        speed -= 0.1
-
-    # Clamp speed to be between 0 and 2
-    speed = max(0, min(2, speed))
-
-    return speed
-
 def main():
     print("Starting headless joystick controller...")
 
@@ -66,13 +54,19 @@ def main():
                 zl = joystick.get_button(6)
                 zr = joystick.get_button(7)
 
-                speed = setSpeed(zr, zl, speed)
+                """Adjusts the speed based on joystick button inputs."""
+                if zr == 1:
+                    speed += 0.1
+                elif zl == 1:
+                    speed -= 0.1
 
-            mdd3a.calculateMotors(lr, fb, r)
+                speed = max(0, min(2, speed))
 
-            print(lr, fb, r, zl, zr)
+                mdd3a.calculateMotors(lr, fb, r)
 
-            time.sleep(0.01)
+                print(lr, fb, r, zl, zr)
+
+                time.sleep(0.01)
 
     except KeyboardInterrupt:
         print("Exiting...")
