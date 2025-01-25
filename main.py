@@ -14,8 +14,6 @@ pygame.joystick.init()
 pca9685 = PCA9685(0x40)
 pca9685.setPWMFreq(50)
 
-speed = 1
-
 # A dictionary to keep track of connected joysticks
 joysticks = {}
 
@@ -51,6 +49,8 @@ def setMotors(pca9685, lr, fb, r):
         pca9685.pwm(7, abs(m4))
 
 def main():
+    speed = 1
+    
     print("Starting headless joystick controller...")
     
     subprocess.Popen(["python3", "Venix/oled.py"])
