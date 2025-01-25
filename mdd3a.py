@@ -1,11 +1,12 @@
+from pca9685 import PCA9685
+
 class MDD3A:
-    from pca9685 import PCA9685
 
     def __init__(self, address=0x40, frequency=50):
-        self.pca9685 = self.PCA9685(address)
+        self.pca9685 = PCA9685(address)  # Changed to instance attribute
         self.pca9685.setPWMFreq(frequency)
 
-    def pwm(self, m1, m2, m3, m4):
+    def pwm(self, m1, m2, m3, m4):  # Added self parameter
         if m1 >= 0:
             self.pca9685.pwm(0, m1)
         else:
@@ -26,12 +27,11 @@ class MDD3A:
         else:
             self.pca9685.pwm(7, abs(m4))
 
-    def calculateMotors(self, lr, fb, r):
-
+    def setMotors(self, lr, fb, r):  # Added self parameter
         # Calculate motor values and store them as instance attributes
-        self.m1 = fb + lr + r
-        self.m2 = fb - lr - r
-        self.m3 = fb - lr + r
-        self.m4 = fb + lr - r
+        m1 = fb + lr + r
+        m2 = fb - lr - r
+        m3 = fb - lr + r
+        m4 = fb + lr - r
 
-        self.pwm(self.m1, self.m2, self.m3, self.m4)
+        self.pwm(m1, m2, m3, m4)
