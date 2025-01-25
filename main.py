@@ -2,7 +2,7 @@ import os
 import pygame
 import subprocess
 import time
-from mdd3a import MDD3A
+from pca9685 import PCA9685
 
 # Set the SDL video driver to dummy for headless operation
 os.environ["SDL_VIDEODRIVER"] = "dummy"
@@ -11,7 +11,8 @@ os.environ["SDL_VIDEODRIVER"] = "dummy"
 pygame.init()
 pygame.joystick.init()
 
-mdd3a = MDD3A()
+pca9685 = PCA9685(address)
+pca9685.setPWMFreq(frequency)
 
 speed = 0
 
@@ -22,6 +23,32 @@ def deadzone(number):
     if abs(number) < 0.005:  # Deadzone range (-0.005, 0.005)
         return 0
     return number
+
+def setMotors(pca9685, lr, fb, r):
+    m1 = fb + lr + r
+    m2 = fb - lr - r
+    m3 = fb - lr + r
+    m4 = fb + lr - r
+
+    if m1 >= 0:
+        pca9685.pwm(0, m1)
+    else:
+        pca9685.pwm(1, abs(m1))
+
+    if m2 >= 0:
+        pca9685.pwm(2, m2)
+    else:
+        pca9685.pwm(3, abs(m2))
+
+    if m3 >= 0:
+        pca9685.pwm(4, m3)
+    else:
+        pca9685.pwm(5, abs(m3))
+
+    if m4 >= 0:
+        pca9685.pwm(6, m4)
+    else:
+        pca9685.pwm(7, abs(m4))
 
 def main():
     print("Starting headless joystick controller...")
@@ -62,7 +89,7 @@ def main():
 
                 speed = max(0, min(2, speed))
 
-                mdd3a.setMotors(lr, fb, r)
+                setMotors(pca9685, lr, fb, r)
 
                 print(lr, fb, r, zl, zr)
 
