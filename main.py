@@ -84,6 +84,8 @@ def setMotors(lr, fb, r):
 
 def main():
     speed = 1
+    zl = 0
+    zr = 0
     
     print("Starting headless joystick controller...")
 
