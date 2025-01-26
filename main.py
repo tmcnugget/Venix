@@ -28,6 +28,11 @@ def setMotors(pca9685, lr, fb, r):
     m3 = fb - lr + r
     m4 = fb + lr - r
 
+    if lr, fb, r == 0:
+        m1, m2, m3, m4 = 0
+
+    print(m1, m2, m3, m4)
+
     if m1 >= 0:
         pca9685.pwm(0, m1)
     else:
