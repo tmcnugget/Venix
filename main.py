@@ -48,24 +48,24 @@ def setMotors(pca9685, lr, fb, r):
     print(m1, m2, m3, m4)
 
     if m1 >= 0:
-        pca9685.setPWM(0, m1)
+        pca9685.setPWM(0, 0, m1)
     else:
-        pca9685.setPWM(1, abs(m1))
+        pca9685.setPWM(1, 0, abs(m1))
         
     if m2 >= 0:
-        pca9685.setPWM(2, m2)
+        pca9685.setPWM(2, 0, m2)
     else:
-        pca9685.setPWM(3, abs(m2))
+        pca9685.setPWM(3, 0, abs(m2))
 
     if m3 >= 0:
-        pca9685.setPWM(4, m3)
+        pca9685.setPWM(4, 0, m3)
     else:
-        pca9685.setPWM(5, abs(m3))
+        pca9685.setPWM(5, 0, abs(m3))
 
     if m4 >= 0:
-        pca9685.setPWM(6, m4)
+        pca9685.setPWM(6, 0, m4)
     else:
-        pca9685.setPWM(7, abs(m4))
+        pca9685.setPWM(7, 0, abs(m4))
 
     print(m1, m2, m3, m4)
 
