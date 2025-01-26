@@ -1,21 +1,18 @@
-import sys
+import time
+from multiprocessing import Value
 from luma.oled.device import ssd1306
 from luma.core.interface.serial import i2c
 from luma.core.render import canvas
 from PIL import ImageFont
 
+fb = Value('d', 0.0)
+lr = Value('d', 0.0)
+r = Value('d', 0.0)
+
 def text(text, size, x, y):
     with canvas(device) as draw:
         font = ImageFont.truetype("font.ttf", size)
         draw.text((x, y), text, font = font, fill="white")
-
-function = sys.argv[1]
-
-def getValues():
-    lr = float(sys.argv[2])
-    fb = float(sys.argv[3])
-    r = float(sys.argv[4])
-    return lr, fb, r
 
 def init():
     serial = i2c(port=1, address=0x3C)
@@ -38,8 +35,8 @@ def write():
     text(f"{fb:.2f}", 15, 5, 40)
     text(f"{r:.2f}", 15, 5, 55)
 
-if function == "init":
+if __name__ == "__main__":
     init()
-elif function == "write":
-    getValues()
-    write()
+    while True:
+        write()
+        time.sleep(0.01)
