@@ -17,6 +17,10 @@ pca9685.setPWMFreq(50)
 # A dictionary to keep track of connected joysticks
 joysticks = {}
 
+def scale(number):
+    output = number * 4095
+    return output
+
 def deadzone(number):
     if abs(number) < 0.005:  # Deadzone range (-0.005, 0.005)
         return 0
@@ -32,6 +36,11 @@ def setMotors(pca9685, lr, fb, r):
     m2 = min(m2, 1)
     m3 = min(m3, 1)
     m4 = min(m4, 1)
+
+    m1 = scale(m1)
+    m2 = scale(m2)
+    m3 = scale(m3)
+    m4 = scale(m4)
     
     if lr == 0 and fb == 0 and r == 0:
         m1, m2, m3, m4 = 0, 0, 0, 0
@@ -39,24 +48,24 @@ def setMotors(pca9685, lr, fb, r):
     print(m1, m2, m3, m4)
 
     if m1 >= 0:
-        pca9685.pwm(0, m1)
+        pca9685.setPWM(0, m1)
     else:
-        pca9685.pwm(1, abs(m1))
-
+        pca9685.setPWM(1, abs(m1))
+        
     if m2 >= 0:
-        pca9685.pwm(2, m2)
+        pca9685.setPWM(2, m2)
     else:
-        pca9685.pwm(3, abs(m2))
+        pca9685.setPWM(3, abs(m2))
 
     if m3 >= 0:
-        pca9685.pwm(4, m3)
+        pca9685.setPWM(4, m3)
     else:
-        pca9685.pwm(5, abs(m3))
+        pca9685.setPWM(5, abs(m3))
 
     if m4 >= 0:
-        pca9685.pwm(6, m4)
+        pca9685.setPWM(6, m4)
     else:
-        pca9685.pwm(7, abs(m4))
+        pca9685.setPWM(7, abs(m4))
 
     print(m1, m2, m3, m4)
 
