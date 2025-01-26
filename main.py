@@ -88,15 +88,10 @@ def setVars(lr, fb, r):
     fb.value = fb.value
     r.value = r.value
 
-def main():
+def main(lr, fb, r):
     speed = 1
 
     print("Starting headless joystick controller...")
-
-    # Shared float variables (using double precision 'd')
-    fb = Value('d', 0.0)   # 'd' for double precision float
-    lr = Value('d', 0.0)
-    r = Value('d', 0.0)
 
     # Main loop
     try:
@@ -149,8 +144,14 @@ def main():
         pwm(7, 0)
 
 if __name__ == "__main__":
+    # Shared float variables (using double precision 'd')
+    lr = Value('d', 0.0)   # 'd' for double precision float
+    fb = Value('d', 0.0)
+    r = Value('d', 0.0)
+
     # Start setVars process
     process = Process(target=setVars, args=(lr, fb, r))
     process.start()
 
-    main()
+    # Run the main function with the shared variables
+    main(lr, fb, r)
