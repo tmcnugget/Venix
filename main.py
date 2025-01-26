@@ -82,9 +82,9 @@ def setMotors(lr, fb, r):
 
     print(m1, m2, m3, m4)
 
-lr = 0
-fb = 0
-r = 0
+lr = 0.0
+fb = 0.0
+r = 0.0
 
 def setVars():
     lr.value = lr
