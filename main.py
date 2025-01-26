@@ -96,8 +96,6 @@ def main():
 
                 setMotors(pca9685, lr, fb, r)
 
-                print(lr, fb, r, zl, zr)
-
                 time.sleep(0.01)
 
     except KeyboardInterrupt:
