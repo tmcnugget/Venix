@@ -82,6 +82,10 @@ def setMotors(lr, fb, r):
 
     print(m1, m2, m3, m4)
 
+lr = 0
+fb = 0
+r = 0
+
 def setVars():
     lr.value = lr
     fb.value = fb
@@ -137,8 +141,14 @@ def main():
         print("Exiting...")
     finally:
         pygame.quit()
-        for channel in range(16):
-            pwm([channel], 0)
+        pwm(0, 0)
+        pwm(1, 0)
+        pwm(2, 0)
+        pwm(3, 0)
+        pwm(4, 0)
+        pwm(5, 0)
+        pwm(6, 0)
+        pwm(7, 0)
 
 process = Process(target=setVars)
 process.start()
