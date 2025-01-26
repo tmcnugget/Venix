@@ -123,7 +123,7 @@ def main():
 
             setMotors(lr, fb, r)
 
-            subrocess.Popen("python3", "oled.py", "write", str(lr), str(fb), str(r)])
+            subrocess.Popen(["python3", "oled.py", "write", str(lr), str(fb), str(r)])
 
     except KeyboardInterrupt:
         print("Exiting...")
