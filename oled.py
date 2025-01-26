@@ -14,7 +14,7 @@ function = sys.argv[1]
 def getValues():
     lr = float(sys.argv[2])
     fb = float(sys.argv[3])
-    r = float(sys.argv[4)
+    r = float(sys.argv[4])
     return lr, fb, r
 
 def init():
