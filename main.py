@@ -54,17 +54,17 @@ def setMotors(lr, fb, r):
         pwm(1, 0)
 
     if m2 > 0:
-        pwm(3, m2)
+        pwm(2, m2)
     elif m2 < 0:
-        pwm(2, abs(m2))
+        pwm(3, abs(m2))
     else:
         pwm(2, 0)
         pwm(3, 0)
 
     if m3 > 0:
-        pwm(4, m3)
+        pwm(5, m3)
     elif m3 < 0:
-        pwm(5, abs(m3))
+        pwm(4, abs(m3))
     else:
         pwm(4, 0)
         pwm(5, 0)
@@ -112,9 +112,9 @@ def main():
 
             """Adjusts the speed based on joystick button inputs."""
             if zr == 1:
-                speed += 0.05
+                speed += 0.005
             elif zl == 1:
-                speed -= 0.05
+                speed -= 0.005
 
             speed = max(0, min(2, speed))
 
