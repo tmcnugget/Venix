@@ -5,7 +5,6 @@ import time
 from adafruit_pca9685 import PCA9685
 import board
 import busio
-from oled import initOLED, showOLED, writeOLED
 
 # Set the SDL video driver to dummy for headless operation
 os.environ["SDL_VIDEODRIVER"] = "dummy"
@@ -18,8 +17,6 @@ pygame.joystick.init()
 i2c = busio.I2C(board.SCL, board.SDA)
 pca = PCA9685(i2c)
 pca.frequency = 60  # Set the PWM frequency
-
-initOLED()
 
 # A dictionary to keep track of connected joysticks
 joysticks = {}
@@ -89,8 +86,8 @@ def main():
     speed = 1
     
     print("Starting headless joystick controller...")
-    
-    showOLED()
+
+    subrocess.Popen(["python3", "oled.py" "init"])
 
     # Main loop
     try:
@@ -122,16 +119,18 @@ def main():
                 elif zl == 1:
                     speed -= 0.02
 
-                speed = max(0, min(2, speed))
+            speed = max(0, min(2, speed))
 
-                setMotors(lr, fb, r)
+            setMotors(lr, fb, r)
 
-                writeOLED(lr, fb, r, m1, m2, m3, m4)
+            subrocess.Popen("python3", "oled.py", "write", str(lr), str(fb), str(r)])
 
     except KeyboardInterrupt:
         print("Exiting...")
     finally:
         pygame.quit()
+        for channel in range(16):
+            pwm([channel], 0)
 
 if __name__ == "__main__":
     main()
