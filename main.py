@@ -28,10 +28,10 @@ def setMotors(pca9685, lr, fb, r):
     m3 = fb - lr + r,
     m4 = fb + lr - r,
 
-    min(m1, 1)
-    min(m2, 1)
-    min(m3, 1)
-    min(m4, 1)
+    m1 = min(m1, 1)
+    m2 = min(m2, 1)
+    m3 = min(m3, 1)
+    m4 = min(m4, 1)
     
     if lr == 0 and fb == 0 and r == 0:
         m1, m2, m3, m4 = 0, 0, 0, 0
