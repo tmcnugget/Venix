@@ -35,10 +35,10 @@ def pwm(channel, speed):
     pca.channels[channel].duty_cycle = pwm_value
 
 def setMotors(lr, fb, r):
-    m1 = fb + lr + r
-    m2 = fb - lr - r
-    m3 = fb - lr + r
-    m4 = fb + lr - r
+    m1 = fb + lr - r
+    m2 = fb - lr + r
+    m3 = fb - lr - r
+    m4 = fb + lr + r
 
     m1 = min(m1, 1)
     m2 = min(m2, 1)
@@ -107,14 +107,18 @@ def main():
                 fb = deadzone(round(joystick.get_axis(1), 3)) / 2 * speed # Up/Down
                 r = deadzone(round(joystick.get_axis(2), 3)) / 2 * speed # Rotate
 
+                lr = min(lr, 1)
+                fb = min(fb, 1)
+                r = min(r, 1)
+
                 zl = joystick.get_button(6)
                 zr = joystick.get_button(7)
 
             """Adjusts the speed based on joystick button inputs."""
             if zr == 1:
-                speed += 0.005
+                speed += 0.01
             elif zl == 1:
-                speed -= 0.005
+                speed -= 0.01
 
             speed = max(0, min(2, speed))
 
