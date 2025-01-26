@@ -23,10 +23,10 @@ def deadzone(number):
     return number
 
 def setMotors(pca9685, lr, fb, r):
-    m1 = fb + lr + r,
-    m2 = fb - lr - r,
-    m3 = fb - lr + r,
-    m4 = fb + lr - r,
+    m1 = fb + lr + r
+    m2 = fb - lr - r
+    m3 = fb - lr + r
+    m4 = fb + lr - r
 
     m1 = min(m1, 1)
     m2 = min(m2, 1)
