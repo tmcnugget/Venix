@@ -5,6 +5,7 @@ import time
 from adafruit_pca9685 import PCA9685
 import board
 import busio
+import oled
 
 # Set the SDL video driver to dummy for headless operation
 os.environ["SDL_VIDEODRIVER"] = "dummy"
@@ -87,7 +88,8 @@ def main():
     
     print("Starting headless joystick controller...")
     
-    subprocess.Popen(["python3", "Venix/oled.py"])
+    initOLED()
+    showOLED()
 
     # Main loop
     try:
@@ -108,24 +110,22 @@ def main():
             for joystick in joysticks.values():
                 lr = deadzone(round(joystick.get_axis(0), 3)) / 2 * speed # Left/Right
                 fb = deadzone(round(joystick.get_axis(1), 3)) / 2 * speed # Up/Down
-                r = deadzone(round(joystick.get_axis(2), 3)) / 2 * speed # Rotate
-
-                lr = min(lr, 1)
-                fb = min(fb, 1)
-                r = min(r, 1)
-
+                r = -deadzone(round(joystick.get_axis(2), 3)) / 2 * speed # Rotate
+                    
                 zl = joystick.get_button(6)
                 zr = joystick.get_button(7)
 
             """Adjusts the speed based on joystick button inputs."""
             if zr == 1:
-                speed += 0.01
+                speed += 0.02
             elif zl == 1:
-                speed -= 0.01
+                speed -= 0.02
 
             speed = max(0, min(2, speed))
 
             setMotors(lr, fb, r)
+
+            writeOLED(lr, fb, r, m1, m2, m3, m4)
 
     except KeyboardInterrupt:
         print("Exiting...")
