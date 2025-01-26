@@ -1,6 +1,6 @@
 import os
+from multiprocessing import Process, Value
 import pygame
-import subprocess
 import time
 from adafruit_pca9685 import PCA9685
 import board
@@ -82,12 +82,20 @@ def setMotors(lr, fb, r):
 
     print(m1, m2, m3, m4)
 
+def setVars():
+    lr.value = lr
+    fb.value = fb
+    r.value = r
+
 def main():
     speed = 1
     
     print("Starting headless joystick controller...")
 
-    subprocess.Popen(["python3", "oled.py", "init"])
+    # Shared float variables (using double precision 'd')
+    fb = Value('d', 0.0)   # 'd' for double precision float
+    lr = Value('d', 0.0)
+    r = Value('d', 0.0)
 
     # Main loop
     try:
@@ -123,7 +131,7 @@ def main():
 
             setMotors(lr, fb, r)
 
-            subprocess.Popen(["python3", "oled.py", "write", str(lr), str(fb), str(r)])
+            setVars()
 
     except KeyboardInterrupt:
         print("Exiting...")
@@ -131,6 +139,9 @@ def main():
         pygame.quit()
         for channel in range(16):
             pwm([channel], 0)
+
+process = Process(target=setVars)
+process.start()
 
 if __name__ == "__main__":
     main()
