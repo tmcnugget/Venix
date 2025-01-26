@@ -2,7 +2,9 @@ import os
 import pygame
 import subprocess
 import time
-from pca9685 import PCA9685
+from adafruit_pca9685 import PCA9685
+import board
+import busio
 
 # Set the SDL video driver to dummy for headless operation
 os.environ["SDL_VIDEODRIVER"] = "dummy"
@@ -11,8 +13,10 @@ os.environ["SDL_VIDEODRIVER"] = "dummy"
 pygame.init()
 pygame.joystick.init()
 
-pca9685 = PCA9685(0x40)
-pca9685.setPWMFreq(50)
+# Set up I2C communication
+i2c = busio.I2C(board.SCL, board.SDA)
+pca = PCA9685(i2c)
+pca.frequency = 60  # Set the PWM frequency
 
 # A dictionary to keep track of connected joysticks
 joysticks = {}
@@ -21,6 +25,14 @@ def deadzone(number):
     if abs(number) < 0.005:  # Deadzone range (-0.005, 0.005)
         return 0
     return number
+
+def pwm(channel, speed):
+    """
+    Set the motor speed on the given channel (0–15).
+    Speed range: 0 (off) to 65535 (full speed)
+    """
+    pwm_value = int(speed * 65535)  # Convert speed to PWM range (0-65535)
+    pca.channels[channel].duty_cycle = pwm_value
 
 def setMotors(lr, fb, r):
     m1 = fb + lr + r
@@ -33,13 +45,37 @@ def setMotors(lr, fb, r):
     m3 = min(m3, 1)
     m4 = min(m4, 1)
 
-    m1 = scale(m1)
-    m2 = scale(m2)
-    m3 = scale(m3)
-    m4 = scale(m4)
-    
-    if lr == 0 and fb == 0 and r == 0:
-        m1, m2, m3, m4 = 0, 0, 0, 0
+    if m1 > 0:
+        pwm(0, m1)
+    elif m1 < 0:
+        pwm(1, abs(m1))
+    else:
+        pwm(0, 0)
+        pwm(1, 0)
+
+    if m2 > 0:
+        pwm(2, m2)
+    elif m2 < 0:
+        pwm(3, abs(m2))
+    else:
+        pwm(2, 0)
+        pwm(3, 0)
+
+    if m3 > 0:
+        pwm(4, m3)
+    elif m3 < 0:
+        pwm(5, abs(m3))
+    else:
+        pwm(4, 0)
+        pwm(5, 0)
+
+    if m4 > 0:
+        pwm(6, m4)
+    elif m4 < 0:
+        pwm(7, abs(m4))
+    else:
+        pwm(6, 0)
+        pwm(7, 0)
 
     print(m1, m2, m3, m4)
 
