@@ -46,17 +46,17 @@ def setMotors(lr, fb, r):
     m4 = min(m4, 1)
 
     if m1 > 0:
-        pwm(0, m1)
+        pwm(1, m1)
     elif m1 < 0:
-        pwm(1, abs(m1))
+        pwm(0, abs(m1))
     else:
         pwm(0, 0)
         pwm(1, 0)
 
     if m2 > 0:
-        pwm(2, m2)
+        pwm(3, m2)
     elif m2 < 0:
-        pwm(3, abs(m2))
+        pwm(2, abs(m2))
     else:
         pwm(2, 0)
         pwm(3, 0)
