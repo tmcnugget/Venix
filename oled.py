@@ -3,7 +3,7 @@ from luma.core.interface.serial import i2c
 from luma.core.render import canvas
 from PIL import ImageFont
 
-def text(text, size, x, y)
+def text(text, size, x, y):
     with canvas(device) as draw:
         font = ImageFont.truetype("font.ttf", size)
         draw.text((x, y), text, font = font, fill="white")
@@ -22,9 +22,7 @@ def writeOLED(lr, fb, r, m1, m2, m3, m4):
     
 
 def drawmain():
-    with canvas(device) as draw:
-            # Load custom fonts
-            font = ImageFont.truetype("font.ttf", size)
-
-            # Draw text on the OLED
-            draw.text((5, 0), "m1", font=large_font, fill="white")
+    text(m1, 10, 5, 0)
+    text(m2, 10, 15, 0)
+    text(m3, 10, 25, 0)
+    text(m4, 10, 35, 0)
