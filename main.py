@@ -1,10 +1,10 @@
 import os
-from multiprocessing import Process, Value
 import pygame
 import time
 from adafruit_pca9685 import PCA9685
 import board
 import busio
+import oled
 
 # Set the SDL video driver to dummy for headless operation
 os.environ["SDL_VIDEODRIVER"] = "dummy"
@@ -82,15 +82,9 @@ def setMotors(lr, fb, r):
 
     print(m1, m2, m3, m4)
 
-def setVars(lr, fb, r):
-    # Access the 'value' attribute of the multiprocessing.Value objects
-    lr.value = lr.value
-    fb.value = fb.value
-    r.value = r.value
-
-def main(lr, fb, r):
+def main():
     speed = 1
-
+    
     print("Starting headless joystick controller...")
 
     # Main loop
@@ -110,48 +104,27 @@ def main(lr, fb, r):
                     print(f"Joystick {event.instance_id} disconnected")
 
             for joystick in joysticks.values():
-                lr.value = deadzone(round(joystick.get_axis(0), 3)) / 2 * speed  # Left/Right
-                fb.value = deadzone(round(joystick.get_axis(1), 3)) / 2 * speed  # Up/Down
-                r.value = -deadzone(round(joystick.get_axis(2), 3)) / 2 * speed  # Rotate
-
+                lr = deadzone(round(joystick.get_axis(0), 3)) / 2 * speed # Left/Right
+                fb = deadzone(round(joystick.get_axis(1), 3)) / 2 * speed # Up/Down
+                r = -deadzone(round(joystick.get_axis(2), 3)) / 2 * speed # Rotate
+                    
                 zl = joystick.get_button(6)
                 zr = joystick.get_button(7)
 
-                """Adjusts the speed based on joystick button inputs."""
-                if zr == 1:
-                    speed += 0.02
-                elif zl == 1:
-                    speed -= 0.02
+            """Adjusts the speed based on joystick button inputs."""
+            if zr == 1:
+                speed += 0.02
+            elif zl == 1:
+                speed -= 0.02
 
             speed = max(0, min(2, speed))
 
-            # Update motors with the current joystick input
-            setMotors(lr.value, fb.value, r.value)
-
-            setVars(lr, fb, r)
+            setMotors(lr, fb, r)
 
     except KeyboardInterrupt:
         print("Exiting...")
     finally:
         pygame.quit()
-        pwm(0, 0)
-        pwm(1, 0)
-        pwm(2, 0)
-        pwm(3, 0)
-        pwm(4, 0)
-        pwm(5, 0)
-        pwm(6, 0)
-        pwm(7, 0)
 
 if __name__ == "__main__":
-    # Shared float variables (using double precision 'd')
-    lr = Value('d', 0.0)   # 'd' for double precision float
-    fb = Value('d', 0.0)
-    r = Value('d', 0.0)
-
-    # Start setVars process
-    process = Process(target=setVars, args=(lr, fb, r))
-    process.start()
-
-    # Run the main function with the shared variables
-    main(lr, fb, r)
+    main()
