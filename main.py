@@ -82,18 +82,15 @@ def setMotors(lr, fb, r):
 
     print(m1, m2, m3, m4)
 
-lr = 0.0
-fb = 0.0
-r = 0.0
-
-def setVars():
-    lr.value = lr
-    fb.value = fb
-    r.value = r
+def setVars(lr, fb, r):
+    # Access the 'value' attribute of the multiprocessing.Value objects
+    lr.value = lr.value
+    fb.value = fb.value
+    r.value = r.value
 
 def main():
     speed = 1
-    
+
     print("Starting headless joystick controller...")
 
     # Shared float variables (using double precision 'd')
@@ -118,10 +115,10 @@ def main():
                     print(f"Joystick {event.instance_id} disconnected")
 
             for joystick in joysticks.values():
-                lr = deadzone(round(joystick.get_axis(0), 3)) / 2 * speed # Left/Right
-                fb = deadzone(round(joystick.get_axis(1), 3)) / 2 * speed # Up/Down
-                r = -deadzone(round(joystick.get_axis(2), 3)) / 2 * speed # Rotate
-                    
+                lr.value = deadzone(round(joystick.get_axis(0), 3)) / 2 * speed  # Left/Right
+                fb.value = deadzone(round(joystick.get_axis(1), 3)) / 2 * speed  # Up/Down
+                r.value = -deadzone(round(joystick.get_axis(2), 3)) / 2 * speed  # Rotate
+
                 zl = joystick.get_button(6)
                 zr = joystick.get_button(7)
 
@@ -133,9 +130,10 @@ def main():
 
             speed = max(0, min(2, speed))
 
-            setMotors(lr, fb, r)
+            # Update motors with the current joystick input
+            setMotors(lr.value, fb.value, r.value)
 
-            setVars()
+            setVars(lr, fb, r)
 
     except KeyboardInterrupt:
         print("Exiting...")
@@ -150,8 +148,9 @@ def main():
         pwm(6, 0)
         pwm(7, 0)
 
-process = Process(target=setVars)
-process.start()
-
 if __name__ == "__main__":
+    # Start setVars process
+    process = Process(target=setVars, args=(lr, fb, r))
+    process.start()
+
     main()
