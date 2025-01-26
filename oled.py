@@ -12,9 +12,9 @@ def text(text, size, x, y):
 function = sys.argv[1]
 
 def getValues():
-    lr = float(sys.argv[1])
-    fb = float(sys.argv[2])
-    r = float(sys.argv[3])
+    lr = float(sys.argv[2])
+    fb = float(sys.argv[3])
+    r = float(sys.argv[4)
     return lr, fb, r
 
 def init():
