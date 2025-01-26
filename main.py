@@ -32,13 +32,16 @@ def pwm(channel, speed):
     Speed range: 0 (off) to 65535 (full speed)
     """
     pwm_value = int(speed * 65535)  # Convert speed to PWM range (0-65535)
+    if pwm_value > 65535:
+        print(f"ERROR: PWM VALUE SURPASSES MAX ALLOWED: {pwm_value}")
+        pwm_value = 65535
     pca.channels[channel].duty_cycle = pwm_value
 
 def setMotors(lr, fb, r):
-    m1 = fb + lr - r
-    m2 = fb - lr + r
-    m3 = fb - lr - r
-    m4 = fb + lr + r
+    m1 = fb + lr + r
+    m2 = fb - lr - r
+    m3 = fb - lr + r
+    m4 = fb + lr - r
 
     m1 = min(m1, 1)
     m2 = min(m2, 1)
