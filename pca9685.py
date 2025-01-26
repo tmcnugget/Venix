@@ -46,12 +46,3 @@ class PCA9685:
         self.write(self._LED0_ON_H + 4 * channel, on >> 8)
         self.write(self._LED0_OFF_L + 4 * channel, off & 0xFF)
         self.write(self._LED0_OFF_H + 4 * channel, off >> 8)
-   
-    def pwm(self, channel, value):
-        if not 0.0 <= value <= 1.0:
-            raise ValueError("Value must be between 0.0 and 1.0")
-        pulse = int(value * (self.PWM_RESOLUTION - 1))  # Map to 0-4095
-        self.setPWM(channel, 0, pulse)
-
-    def write(self, register, value):
-        self.bus.write_byte_data(self.address, register, value)
