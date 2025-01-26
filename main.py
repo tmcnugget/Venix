@@ -87,7 +87,7 @@ def main():
     
     print("Starting headless joystick controller...")
 
-    subprocess.Popen(["python3", "oled.py" "init"])
+    subprocess.Popen(["python3", "oled.py", "init"])
 
     # Main loop
     try:
