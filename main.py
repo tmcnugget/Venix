@@ -18,7 +18,7 @@ pca9685.setPWMFreq(50)
 joysticks = {}
 
 def scale(number):
-    output = number * 4095
+    output = int(number * 4095)
     return output
 
 def deadzone(number):
