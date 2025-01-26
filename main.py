@@ -19,6 +19,8 @@ i2c = busio.I2C(board.SCL, board.SDA)
 pca = PCA9685(i2c)
 pca.frequency = 60  # Set the PWM frequency
 
+initOLED()
+
 # A dictionary to keep track of connected joysticks
 joysticks = {}
 
@@ -88,7 +90,6 @@ def main():
     
     print("Starting headless joystick controller...")
     
-    initOLED()
     showOLED()
 
     # Main loop
