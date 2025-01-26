@@ -87,7 +87,7 @@ def main():
     
     print("Starting headless joystick controller...")
 
-    subrocess.Popen(["python3", "oled.py" "init"])
+    subprocess.Popen(["python3", "oled.py" "init"])
 
     # Main loop
     try:
@@ -123,7 +123,7 @@ def main():
 
             setMotors(lr, fb, r)
 
-            subrocess.Popen(["python3", "oled.py", "write", str(lr), str(fb), str(r)])
+            subprocess.Popen(["python3", "oled.py", "write", str(lr), str(fb), str(r)])
 
     except KeyboardInterrupt:
         print("Exiting...")
