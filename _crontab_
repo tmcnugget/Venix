@@ -1,0 +1,3 @@
+@reboot bash /home/venix/run.sh >> /home/venix/cronlog.log 2>&1 &
+
+# Replace "venix" with your username
