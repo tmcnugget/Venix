@@ -20,8 +20,6 @@ def init():
     text(device, "fwd-bckwd:", 15, 5, 40)
     text(device, "rotate:", 15, 5, 55)
 
-    return device
-
 def write(device):
     """Update joystick values on the OLED display"""
     # Clear the display and update with dynamic values
