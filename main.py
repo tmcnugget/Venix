@@ -108,7 +108,7 @@ def main():
             for joystick in joysticks.values():
                 lr = deadzone(round(joystick.get_axis(0), 3)) / 2 * speed # Left/Right
                 fb = deadzone(round(joystick.get_axis(1), 3)) / 2 * speed # Up/Down
-                r = deadzone(round(joystick.get_axis(2), 3)) / 2 * speed # Rotate
+                r = -deadzone(round(joystick.get_axis(2), 3)) / 2 * speed # Rotate
 
                 lr = min(lr, 1)
                 fb = min(fb, 1)
@@ -119,9 +119,9 @@ def main():
 
             """Adjusts the speed based on joystick button inputs."""
             if zr == 1:
-                speed += 0.01
+                speed += 0.02
             elif zl == 1:
-                speed -= 0.01
+                speed -= 0.02
 
             speed = max(0, min(2, speed))
 
