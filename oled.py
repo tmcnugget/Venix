@@ -20,11 +20,10 @@ def deadzone(number):
         return 0
     return number
 
-def text(device, text, size, x, y):
+def text(draw, text, size, x, y):
     """Function to display text on the OLED display"""
-    with canvas(device) as draw:
-        font = ImageFont.truetype("font.ttf", size)
-        draw.text((x, y), text, font=font, fill="white")
+    font = ImageFont.truetype("font.ttf", size)
+    draw.text((x, y), text, font=font, fill="white")
 
 def init():
     """Initialize the OLED display and display static text"""
@@ -32,10 +31,10 @@ def init():
     device = ssd1306(serial)
     return device
 
-def write(draw, fb, lr, r):
+def write(device, fb, lr, r):
     """Update joystick values on the OLED display"""
-    with canvas(device) as draw:  # Correcting the use of the canvas context
-        draw.rectangle((0, 0, device.width, device.height), outline="black", fill="black")
+    with canvas(device) as draw:  # Correct use of canvas context
+        draw.rectangle((0, 0, device.width, device.height), outline="black", fill="black")  # Clear the screen
         text(draw, f"x1: {lr}", 20, 10, 0)
         text(draw, f"y: {fb}", 20, 10, 25)
         text(draw, f"x2: {r}", 20, 10, 50)
