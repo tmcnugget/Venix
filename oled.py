@@ -1,7 +1,24 @@
+import os
+import pygame
 from luma.oled.device import ssd1306
 from luma.core.interface.serial import i2c
 from luma.core.render import canvas
 from PIL import ImageFont
+
+# Set the SDL video driver to dummy for headless operation
+os.environ["SDL_VIDEODRIVER"] = "dummy"
+
+# Initialize Pygame and the joystick module
+pygame.init()
+pygame.joystick.init()
+
+# A dictionary to keep track of connected joysticks
+joysticks = {}
+
+def deadzone(number):
+    if abs(number) < 0.005:  # Deadzone range (-0.005, 0.005)
+        return 0
+    return number
 
 def text(device, text, size, x, y):
     """Function to display text on the OLED display"""
@@ -13,21 +30,52 @@ def init():
     """Initialize the OLED display and display static text"""
     serial = i2c(port=1, address=0x3C)
     device = ssd1306(serial)
-    
-    # Display static text once
-    text(device, "Joystick values:", 25, 5, 0)
-    text(device, "left-right:", 15, 5, 25)
-    text(device, "fwd-bckwd:", 15, 5, 40)
-    text(device, "rotate:", 15, 5, 55)
+    return device
 
-def write(device):
+def write(device, fb, lr, r):
     """Update joystick values on the OLED display"""
-    # Clear the display and update with dynamic values
-    with canvas(device) as draw:
+    with canvas(device) as draw:  # Correcting the use of the canvas context
         font = ImageFont.truetype("font.ttf", 15)
-        draw.text((5, 25), "E O", font=font, fill="white")
-        draw.text((5, 40), "R R", font=font, fill="white")
-        draw.text((5, 55), "R !", font=font, fill="white")
+        draw.text((5, 25), f"x1: {lr}", font=font, fill="white")
+        draw.text((5, 40), f"y: {fb}", font=font, fill="white")
+        draw.text((5, 55), f"x2: {r}", font=font, fill="white")
 
-init()
-write()
+def main(device):
+    print("Starting headless joystick controller...")
+
+    # Main loop
+    try:
+        while True:
+            # Process joystick events
+            for event in pygame.event.get():
+                if event.type == pygame.JOYDEVICEADDED:
+                    # A new joystick has been connected
+                    joy = pygame.joystick.Joystick(event.device_index)
+                    joysticks[joy.get_instance_id()] = joy
+                    print(f"Joystick {joy.get_instance_id()} connected")
+
+                if event.type == pygame.JOYDEVICEREMOVED:
+                    # A joystick has been disconnected
+                    del joysticks[event.instance_id]
+                    print(f"Joystick {event.instance_id} disconnected")
+
+            for joystick in joysticks.values():
+                lr = deadzone(round(joystick.get_axis(0), 3))
+                fb = deadzone(round(joystick.get_axis(1), 3))
+                r = -deadzone(round(joystick.get_axis(2), 3))
+
+                # Ensure values are within range
+                lr = min(lr, 1)
+                fb = min(fb, 1)
+                r = min(r, 1)
+
+                write(device, fb, lr, r)
+    
+    except KeyboardInterrupt:
+        print("Exiting...")
+    finally:
+        pygame.quit()
+
+if __name__ == "__main__":
+    device = init()  # Initialize the device before passing it to main
+    main(device)
