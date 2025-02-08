@@ -31,15 +31,19 @@ def init():
     device = ssd1306(serial)
     return device
 
-def write(device, fb, lr, r):
+def write(device, fb, lr, r, speed):
     """Update joystick values on the OLED display"""
     with canvas(device) as draw:  # Correct use of canvas context
         draw.rectangle((0, 0, device.width, device.height), outline="black", fill="black")  # Clear the screen
         text(draw, f"x1: {lr}", 15, 10, 0)
         text(draw, f"y: {fb}", 15, 10, 20)
         text(draw, f"x2: {r}", 15, 10, 40)
+        text(draw, f"speed: {speed}", 15, 10, 60)
 
 def main(device):
+    speed = 1
+    zl = 0
+    zr = 0
     print("Starting headless joystick controller...")
 
     # Main loop
@@ -68,7 +72,18 @@ def main(device):
                 fb = min(fb, 1)
                 r = min(r, 1)
 
-                write(device, fb, lr, r)
+                zl = joystick.get_button(6)
+                zr = joystick.get_button(7)
+
+            """Adjusts the speed based on joystick button inputs."""
+            if zr == 1:
+                speed += 0.02
+            elif zl == 1:
+                speed -= 0.02
+
+            speed = max(0, min(2, speed))
+
+                write(device, fb, lr, r, speed)
     
     except KeyboardInterrupt:
         print("Exiting...")
