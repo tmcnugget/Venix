@@ -32,13 +32,13 @@ def init():
     device = ssd1306(serial)
     return device
 
-def write(device, fb, lr, r):
+def write(draw, fb, lr, r):
     """Update joystick values on the OLED display"""
     with canvas(device) as draw:  # Correcting the use of the canvas context
-        font = ImageFont.truetype("font.ttf", 15)
-        draw.text((5, 25), f"x1: {lr}", font=font, fill="white")
-        draw.text((5, 40), f"y: {fb}", font=font, fill="white")
-        draw.text((5, 55), f"x2: {r}", font=font, fill="white")
+        draw.rectangle((0, 0, device.width, device.height), outline="black", fill="black")
+        text(draw, f"x1: {lr}", 20, 10, 0)
+        text(draw, f"y: {fb}", 20, 10, 25)
+        text(draw, f"x2: {r}", 20, 10, 50)
 
 def main(device):
     print("Starting headless joystick controller...")
