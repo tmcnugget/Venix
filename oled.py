@@ -38,7 +38,7 @@ def write(device, fb, lr, r, speed):
         text(draw, f"x1: {lr}", 15, 10, 0)
         text(draw, f"y: {fb}", 15, 10, 20)
         text(draw, f"x2: {r}", 15, 10, 40)
-        text(draw, f"{speed}", 40, 45, 0)
+        text(draw, f"{speed}", 35, 45, 0)
 
 def main(device):
     speed = 1
