@@ -35,9 +35,9 @@ def write(device, fb, lr, r):
     """Update joystick values on the OLED display"""
     with canvas(device) as draw:  # Correct use of canvas context
         draw.rectangle((0, 0, device.width, device.height), outline="black", fill="black")  # Clear the screen
-        text(draw, f"x1: {lr}", 20, 10, 0)
-        text(draw, f"y: {fb}", 20, 10, 25)
-        text(draw, f"x2: {r}", 20, 10, 50)
+        text(draw, f"x1: {lr}", 15, 10, 0)
+        text(draw, f"y: {fb}", 15, 10, 20)
+        text(draw, f"x2: {r}", 15, 10, 40)
 
 def main(device):
     print("Starting headless joystick controller...")
