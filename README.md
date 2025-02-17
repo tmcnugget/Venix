@@ -11,7 +11,8 @@ A 4WD menacum wheel car for raspberry pi
 3. [Part List (Build your own)](#part-list)
 4. [Getting Started](#getting-started)
 5. [Usage](#usage)
-6. [License](LICENSE)
+6. [Info For Hackers](#info-for-hackers)
+7. [License](LICENSE)
 
 ---
 
@@ -105,3 +106,15 @@ Open [Raspberry Pi Imager](#download-raspberry-pi-imager). Choose the *Operating
 #### Read the OS:
 
 When it has finished writing to the SD card, eject it and connect it to Venix.
+
+## Info For Hackers
+
+Venix is built to be easy to modify. If you want to customise Venix, follow these steps:
+
+### Connect to Venix:
+
+Venix has a dynamic IP address, meaning it would be different on different WiFi. You can connect a display (or an iPad with [this](https://apps.apple.com/us/app/dongled/id6465788521) app and an [adapter](https://www.amazon.co.uk/Capture-1080P60-Streaming-Recorder-Compatible/dp/B08Z3XDYQ7?th=1)!) and a keyboard.
+> Note: when connecting a keyboard (or any USB), remove the USB OTG Shim for the controller
+
+Once you have connected a keyboard and display, you can set up wifi via ```sudo raspi-config```, pressing ```System Options``` by using the arrow keys, then select ```Wireless LAN```.
+You will be prompted to enter you WiFi SSID (name) and password. Once you have done that, select ```back``` then ```finish```. To check if it has worked, type ```hostname -I```. You should see a number appear (e.g. 192.168.1.111). If you DON'T see a number, you can try rebooting ```sudo reboot now``` or, the most likely, you made a typo (the input is case sensitive).
