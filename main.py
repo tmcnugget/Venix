@@ -87,54 +87,44 @@ def setMotors(lr, fb, r):
     print(m1, m2, m3, m4)
 
 def heading():
-    global heading
-    
-    # Read the current, uncalibrated, X, Y & Z magnetic values from the magnetometer and save as a list
+    global amin, amax  # Ensure these are properly referenced
+    current_heading = 0  # Avoid overwriting the function name
+
+    # Read magnetometer data
     mag = list(imu.read_magnetometer_data())
 
-    # Step through each uncalibrated X, Y & Z magnetic value and calibrate them the best we can
+    # Calibrate magnetometer values
     for i in range(3):
         v = mag[i]
-        
-        # If our current reading (mag) is less than our stored minimum reading (amin), then save a new minimum reading
-        # ie save a new lowest possible value for our calibration of this axis
+
+        # Update calibration values
         if v < amin[i]:
             amin[i] = v
-            
-        # If our current reading (mag) is greater than our stored maximum reading (amax), then save a new maximum reading
-        # ie save a new highest possible value for our calibration of this axis
         if v > amax[i]:
             amax[i] = v
 
-        # Calibrate value by removing any offset when compared to the lowest reading seen for this axes
+        # Normalize magnetometer readings
         mag[i] -= amin[i]
-
-        # Scale value based on the highest range of values seen for this axes
-        # Creates a calibrated value between 0 and 1 representing magnetic value
         try:
             mag[i] /= amax[i] - amin[i]
         except ZeroDivisionError:
             pass
-        # Shift magnetic values to between -0.5 and 0.5 to enable the trig to work
-        mag[i] -= 0.5
 
-    # Convert from Gauss values in the appropriate 2 axis to a heading in Radians using trig
-    # Note this does not compensate for tilt
-    heading = math.atan2(
-            mag[AXES[0]],
-            mag[AXES[1]])
+        mag[i] -= 0.5  # Center values around 0
 
-    # If heading is negative, convert to positive, 2 x pi is a full circle in Radians
-    if heading < 0:
-        heading += 2 * math.pi
+    # Calculate heading
+    current_heading = math.atan2(mag[AXES[0]], mag[AXES[1]])
 
-    # Convert heading from Radians to Degrees
-    heading = math.degrees(heading)
-    # Round heading to nearest full degree
-    heading = round(heading)
+    # Convert to degrees and ensure positive value
+    if current_heading < 0:
+        current_heading += 2 * math.pi
+    current_heading = round(math.degrees(current_heading))
 
-def calibrate:
-    global AXES = Y, Z
+    return current_heading  # Return the heading value
+
+def calibrate():
+    global AXES, amin, amax
+    AXES = [1, 2]  # Y, Z axes
 
     amin = list(imu.read_magnetometer_data())
     amax = list(imu.read_magnetometer_data())
@@ -145,12 +135,10 @@ def calibrate:
 
 def main():
     speed = 1
-    zl = 0
-    zr = 0
+    zl = zr = 0
 
-    global X = 0
-    global Y = 1
-    global Z = 2
+    global X, Y, Z
+    X, Y, Z = 0, 1, 2
 
     heading()
     
@@ -186,8 +174,8 @@ def main():
                 
             ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
     
-            temperature = icm20948.read_temperature()
-            round(temperate, 2)
+            temperature = imu.read_temperature()
+            temperature = round(temperature, 2)
 
             """Adjusts the speed based on joystick button inputs."""
             if zr == 1:
