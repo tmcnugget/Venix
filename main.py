@@ -1,5 +1,5 @@
 import os
-import pygame
+from approxeng.input.selectbinder import ControllerResource
 import subprocess
 import time
 import math
@@ -8,22 +8,12 @@ from icm20948 import ICM20948
 import board
 import busio
 
-# Set the SDL video driver to dummy for headless operation
-os.environ["SDL_VIDEODRIVER"] = "dummy"
-
-# Initialize Pygame and the joystick module
-pygame.init()
-pygame.joystick.init()
-
 # Set up I2C communication
 i2c = busio.I2C(board.SCL, board.SDA)
 pca = PCA9685(i2c)
 pca.frequency = 60  # Set the PWM frequency
 
 imu = ICM20948()
-
-# A dictionary to keep track of connected joysticks
-joysticks = {}
 
 def deadzone(number):
     if abs(number) < 0.005:  # Deadzone range (-0.005, 0.005)
@@ -143,39 +133,24 @@ def main():
     heading()
     
     print("Starting headless joystick controller...")
-
-    # Main loop
-    try:
-        while True:
-            # Process joystick events
-            for event in pygame.event.get():
-                if event.type == pygame.JOYDEVICEADDED:
-                    # A new joystick has been connected
-                    joy = pygame.joystick.Joystick(event.device_index)
-                    joysticks[joy.get_instance_id()] = joy
-                    print(f"Joystick {joy.get_instance_id()} connected")
-
-                if event.type == pygame.JOYDEVICEREMOVED:
-                    # A joystick has been disconnected
-                    del joysticks[event.instance_id]
-                    print(f"Joystick {event.instance_id} disconnected")
-
-            for joystick in joysticks.values():
-                lr = deadzone(round(joystick.get_axis(0), 3)) / 2 * speed # Left/Right
-                fb = deadzone(round(joystick.get_axis(1), 3)) / 2 * speed # Up/Down
-                r = -deadzone(round(joystick.get_axis(2), 3)) / 2 * speed # Rotate
-
-                lr = min(lr, 1)
-                fb = min(fb, 1)
-                r = min(r, 1)
-
-                zl = joystick.get_button(6)
-                zr = joystick.get_button(7)
+  
+    with ControllerResource() as controller:
+        print('Controller connected!')
+        while controller.connected:
+            # Reading the left joystick's X and Y axes
+            lr = controller['lx']  # Left X axis (lr)
+            fb = controller['ly']  # Left Y axis (fb)
+        
+            # Reading the right joystick's X axis
+            r = controller['rx']  # Right X axis (r)
+        
+            # Checking the left and right trigger buttons (zl and zr)
+            zl = controller.presses.zl  # Left trigger button (zl)
+            zr = controller.presses.zr  # Right trigger button (zr)
                 
-            ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
-    
-            temperature = imu.read_temperature()
-            temperature = round(temperature, 2)
+            lr = deadzone(min(lr, 1))
+            fb = deadzone(min(fb, 1))
+            r = deadzone(min(r, 1))\
 
             """Adjusts the speed based on joystick button inputs."""
             if zr == 1:
@@ -187,10 +162,15 @@ def main():
 
             setMotors(lr, fb, r)
 
+            ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
+    
+            temperature = imu.read_temperature()
+            temperature = round(temperature, 2)
+
+            time.sleep(0.05)
+
     except KeyboardInterrupt:
         print("Exiting...")
-    finally:
-        pygame.quit()
 
 if __name__ == "__main__":
     calibrate()
