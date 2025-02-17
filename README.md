@@ -78,6 +78,8 @@ Built for exploration and experimentation, Venix serves as both a learning platf
 | M2 nuts | M2 nuts (10x) | [ThePiHut](https://thepihut.com/products/nylon-nut-m2-10-pack)
 | Motor mount | Plastic motor mount (4x) | [ThePiHut](https://thepihut.com/products/pololu-micro-metal-gearmotor-bracket-pair-black)
 
+---
+
 ## Usage
 - 12V, 2 hour runtime
 - ~2cm distance from ground to cables (to be fixed)
@@ -85,36 +87,38 @@ Built for exploration and experimentation, Venix serves as both a learning platf
 - Plastic frame
 - Signal antenna
 
+---
+
 ## Getting Started
 
-Follow these steps to set up your project 
+Follow these steps to set up Venix 
 
-#### Download Raspberry Pi imager:
+### Download Raspberry Pi imager:
 - [For Windows](https://downloads.raspberrypi.org/imager/imager_latest.exe)
 - [For MacOS](https://downloads.raspberrypi.org/imager/imager_latest.dmg)
 - [For Ubuntu for x86](https://downloads.raspberrypi.org/imager/imager_latest_amd64.deb)
 - For Raspberry Pi OS ```sudo apt install rpi-imager```
 
-#### Get the OS:
-- Download [Venos](Venos)
-- Click the download icon
+### Flash the OS:
 
-#### Flash the OS:
+Connect an empty Micro SD Card to your computer and open [Raspberry Pi Imager](#download-raspberry-pi-imager). Choose the ```Choose Device``` tab and select the Pi that you are using (it will be either a Zero or a Zero 2 W. To help determine, the Zero 2 W usually has a big silver chip whereas the Zero dosen't). Then, choose ```Operating System``` and select ```Raspberry Pi OS (Other)```. Choose ```Raspberry Pi OS Lite (32-bit)```. Next, select ```Storage``` and select the SD card that pops up. When promoted, press ```Edit OS customisation settings``` and fill in all fields according to your preferneces. The only fields you HAVE to change are the ```Wireless LAN Country``` and the username and password. After that, press next to write the OS
 
-Open [Raspberry Pi Imager](#download-raspberry-pi-imager). Choose the *Operating System* tab and select *Use custom*. When prompted, choose [Venos](venos.img) and flash it to the SD card that you have connected to your computer.
+### Install VenOS:
 
-#### Read the OS:
+When it has finished writing to the SD card, eject it and connect it to Venix. You can now connect it to power.
 
-When it has finished writing to the SD card, eject it and connect it to Venix.
+You need to connect a display (or an iPad with [this](https://apps.apple.com/us/app/dongled/id6465788521) app and an [adapter](https://www.amazon.co.uk/Capture-1080P60-Streaming-Recorder-Compatible/dp/B08Z3XDYQ7?th=1)!) and a keyboard.
+> Note: when connecting a keyboard (or any USB), make sure it is the Micro USB closest to the middle of the board
+
+Once you have connected a keyboard and display, you can set up wifi via ```sudo raspi-config```, pressing ```System Options``` by using the arrow keys, then select ```Wireless LAN```.
+You will be prompted to enter you WiFi SSID (name) and password. Once you have done that, select ```back``` then ```finish```. To check if it has worked, type ```hostname -I```. You should see a number appear (e.g. 192.168.1.111). MAKE NOTE OF THIS NUMBER, IT'S YOUR IP ADDRESS. If you DON'T see a number, you can try rebooting ```sudo reboot now``` or, the most likely, you made a typo (the input is case sensitive). Now we have to update Venix. For the initial setup (which you only need to once ever), you need to install git: ```sudo apt-get install git```. Now, **GO TO YOUR HOME DIRECTORY** (```cd ~```) and clone the code from this website onto your Venix: ```git clone https://github.com/tmcnugget/Venix.git```. Now, we will install the main packages via ```sudo chmod +x Venix/install.sh && cd Venix && ./install.sh```. This will install everything you need for Venix. Now, we will enable it to run on boot. Open crontab via ```crontab -e``` and if prompted, choose ```nano```. Paste [this](_contrab_), press CTRL+X then Y to save. Reboot the Pi (```sudo reboot now```), and setup is complete.
+
+---
 
 ## Info For Hackers
 
 Venix is built to be easy to modify. If you want to customise Venix, follow these steps:
 
-### Connect to Venix:
+### Program It
 
-Venix has a dynamic IP address, meaning it would be different on different WiFi. You can connect a display (or an iPad with [this](https://apps.apple.com/us/app/dongled/id6465788521) app and an [adapter](https://www.amazon.co.uk/Capture-1080P60-Streaming-Recorder-Compatible/dp/B08Z3XDYQ7?th=1)!) and a keyboard.
-> Note: when connecting a keyboard (or any USB), remove the USB OTG Shim for the controller
-
-Once you have connected a keyboard and display, you can set up wifi via ```sudo raspi-config```, pressing ```System Options``` by using the arrow keys, then select ```Wireless LAN```.
-You will be prompted to enter you WiFi SSID (name) and password. Once you have done that, select ```back``` then ```finish```. To check if it has worked, type ```hostname -I```. You should see a number appear (e.g. 192.168.1.111). If you DON'T see a number, you can try rebooting ```sudo reboot now``` or, the most likely, you made a typo (the input is case sensitive).
+Always make sure you are working in the ```Venix/``` directory. You can make a new file with ```nano filename.py```, delete one with ```rm filename.py```, make a new directory with ```mkdir directoryname```, change directory ```cd directoryname```, go back a directory ```cd ..``` and delete a directory ```rm -rf directoryname```. ONLY delete directories inside the Venix/ directory. If you want to revert to default settings and files, type ```cd ~/Venix``` and then ```sudo ./update.sh```.
