@@ -151,12 +151,13 @@ def main():
                 
             lr = deadzone(min(lr, 1))
             fb = deadzone(min(fb, 1))
-            r = deadzone(min(r, 1))\
+            r = deadzone(min(r, 1))
 
             """Adjusts the speed based on joystick button inputs."""
 
-            if zl is not None and zr is not None:
+            if zl is not None:
                 speed -= zl
+            if zr is not None:
                 speed += zr
                 
             speed = max(0, min(2, speed))
