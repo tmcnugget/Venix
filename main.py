@@ -169,9 +169,6 @@ def main():
 
             time.sleep(0.05)
 
-    except KeyboardInterrupt:
-        print("Exiting...")
-
 if __name__ == "__main__":
     calibrate()
     main()
