@@ -137,6 +137,7 @@ def main():
     with ControllerResource() as controller:
         print('Controller connected!')
         while controller.connected:
+            presses = joystick.check_presses()
             # Reading the left joystick's X and Y axes
             lr = -controller['lx']  # Left X axis (lr)
             fb = -controller['ly']  # Left Y axis (fb)
@@ -145,8 +146,15 @@ def main():
             r = -controller['rx']  # Right X axis (r)
         
             # Checking the left and right trigger buttons (zl and zr)
-            zl = controller.presses.l1  # Left trigger button (zl)
-            zr = controller.presses.r1  # Right trigger button (zr)
+            if presses['lt']  # Left trigger button (zl)
+                zl = 1
+            else:
+                zl = 0
+                
+            if presses['rt']  # Right trigger button (zr)
+                zr = 1
+            else:
+                zr = 0
                 
             lr = deadzone(min(lr, 1))
             fb = deadzone(min(fb, 1))
