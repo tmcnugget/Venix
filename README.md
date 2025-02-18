@@ -34,10 +34,12 @@ Built for exploration and experimentation, Venix serves as both a learning platf
 ### Built With
 
 - [Python](https://www.python.org/)
+- [approxeng.input](https://approxeng.github.io/approxeng.input/index.html)
+- [board](https://docs.circuitpython.org/en/latest/shared-bindings/board/index.html#module-board)
+- [busio](https://docs.circuitpython.org/en/latest/shared-bindings/busio/index.html)
 - [luma.oled](https://pypi.org/project/luma.oled/)
 - [1.3" OLED Driven by luma.oled](https://thepihut.com/products/1-3-oled-display-module-128x64)
 - [PCA9685](https://thepihut.com/products/16-channel-servo-driver-hat-for-raspberry-pi-12-bit-i2c?variant=32138518364222)
-- [PCA9685 Custom library](pca9685.py)
 - [Cytron MDD3A driven by PCA9685](https://thepihut.com/products/3a-4v-16v-2-channel-dc-motor-driver?variant=31985056907326)
 - [ThePiHut Custom game controller](https://thepihut.com/products/raspberry-pi-compatible-wireless-gamepad-controller) 
 
