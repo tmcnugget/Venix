@@ -156,11 +156,12 @@ def main():
             """Adjusts the speed based on joystick button inputs."""
 
             if zl is not None:
-                print(zl)
+                speed -= 0.01
             if zr is not None:
-                print(zr)
+                speed += 0.01
                 
             speed = max(0, min(2, speed))
+            print(speed)
 
             setMotors(lr, fb, r)
 
