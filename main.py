@@ -120,7 +120,7 @@ def calibrate():
     amax = list(imu.read_magnetometer_data())
 
     setMotors(0, 0, 0.5)
-    time.sleep(5)
+    time.sleep(2)
     setMotors(0, 0, 0)
 
 def main():
