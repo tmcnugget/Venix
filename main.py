@@ -169,8 +169,6 @@ def main():
             temperature = imu.read_temperature()
             temperature = round(temperature, 2)
 
-            print(temperature)
-
             time.sleep(0.05)
 
 if __name__ == "__main__":
