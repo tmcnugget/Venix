@@ -149,9 +149,9 @@ def main():
             zl = controller['l2']
             zr = controller['r2']
                 
-            lr = deadzone(min(lr, 1))
-            fb = deadzone(min(fb, 1))
-            r = deadzone(min(r, 1))
+            lr = deadzone(min(lr, 1)) * speed
+            fb = deadzone(min(fb, 1)) * speed
+            r = deadzone(min(r, 1)) * speed 
 
             """Adjusts the speed based on joystick button inputs."""
 
