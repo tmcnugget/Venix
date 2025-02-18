@@ -74,7 +74,7 @@ def setMotors(lr, fb, r):
         pwm(6, 0)
         pwm(7, 0)
 
-    print(m1, m2, m3, m4)
+    #print(m1, m2, m3, m4)
 
 def heading():
     global amin, amax  # Ensure these are properly referenced
@@ -110,6 +110,8 @@ def heading():
         current_heading += 2 * math.pi
     current_heading = round(math.degrees(current_heading))
 
+    print(current_heading)
+
     return current_heading  # Return the heading value
 
 def calibrate():
@@ -137,7 +139,7 @@ def main():
     with ControllerResource() as controller:
         print('Controller connected!')
         while controller.connected:
-            presses = joystick.check_presses()
+            presses = controller.check_presses()
             # Reading the left joystick's X and Y axes
             lr = -controller['lx']  # Left X axis (lr)
             fb = -controller['ly']  # Left Y axis (fb)
