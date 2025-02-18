@@ -139,33 +139,26 @@ def main():
         while controller.connected:
             presses = controller.check_presses()
             # Reading the left joystick's X and Y axes
-            lr = -controller['lx']  # Left X axis (lr)
-            fb = -controller['ly']  # Left Y axis (fb)
+            lr = controller['lx']  # Left X axis (lr)
+            fb = controller['ly']  # Left Y axis (fb)
         
             # Reading the right joystick's X axis
-            r = -controller['rx']  # Right X axis (r)
+            r = controller['rx']  # Right X axis (r)
         
             # Checking the left and right trigger buttons (zl and zr)
-            if presses['lt']:  # Left trigger button (zl)
-                zl = 1
-            else:
-                zl = 0
-                
-            if presses['rt']:  # Right trigger button (zr)
-                zr = 1
-            else:
-                zr = 0
+            zl = controller['l2']
+            zr = controller['r2']
                 
             lr = deadzone(min(lr, 1))
             fb = deadzone(min(fb, 1))
             r = deadzone(min(r, 1))\
 
             """Adjusts the speed based on joystick button inputs."""
-            if zr == 1:
-                speed += 0.0002
-            elif zl == 1:
-                speed -= 0.0002
 
+            if zl is not None and zr is not None:
+                speed -= zl
+                speed += zr
+                
             speed = max(0, min(2, speed))
 
             setMotors(lr, fb, r)
