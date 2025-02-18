@@ -164,9 +164,9 @@ def main():
 
             """Adjusts the speed based on joystick button inputs."""
             if zr == 1:
-                speed += 0.02
+                speed += 0.0002
             elif zl == 1:
-                speed -= 0.02
+                speed -= 0.0002
 
             speed = max(0, min(2, speed))
 
