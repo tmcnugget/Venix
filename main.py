@@ -146,12 +146,12 @@ def main():
             r = -controller['rx']  # Right X axis (r)
         
             # Checking the left and right trigger buttons (zl and zr)
-            if presses['lt']  # Left trigger button (zl)
+            if presses['lt']:  # Left trigger button (zl)
                 zl = 1
             else:
                 zl = 0
                 
-            if presses['rt']  # Right trigger button (zr)
+            if presses['rt']:  # Right trigger button (zr)
                 zr = 1
             else:
                 zr = 0
