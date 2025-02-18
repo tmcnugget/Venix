@@ -156,9 +156,9 @@ def main():
             """Adjusts the speed based on joystick button inputs."""
 
             if zl is not None:
-                speed -= zl
+                print(zl)
             if zr is not None:
-                speed += zr
+                print(zr)
                 
             speed = max(0, min(2, speed))
 
@@ -169,7 +169,7 @@ def main():
             temperature = imu.read_temperature()
             temperature = round(temperature, 2)
 
-            heading()
+            print(temprature)
 
             time.sleep(0.05)
 
