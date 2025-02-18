@@ -131,8 +131,6 @@ def main():
 
     global X, Y, Z
     X, Y, Z = 0, 1, 2
-
-    heading()
     
     print("Starting headless joystick controller...")
   
@@ -176,6 +174,8 @@ def main():
     
             temperature = imu.read_temperature()
             temperature = round(temperature, 2)
+
+            heading()
 
             time.sleep(0.05)
 
