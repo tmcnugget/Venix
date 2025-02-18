@@ -1,5 +1,8 @@
 #!/bin/bash
 
+cd ~
+sudo chmod +x update.sh
+
 # Function to check if a Python module exists and install if missing
 install_python_lib() {
     local module=$1
