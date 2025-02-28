@@ -4,9 +4,12 @@ import subprocess
 import time
 import math
 from adafruit_pca9685 import PCA9685
+from adafruit_servokit import ServoKit
 from icm20948 import ICM20948
 import board
 import busio
+
+pca = ServoKit(channels=16)
 
 # Set up I2C communication
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -76,6 +79,12 @@ def setMotors(lr, fb, r):
 
     #print(m1, m2, m3, m4)
 
+def setServos(x, y):
+    s1, s2 = ik(x, y)
+    pca.servo[8].angle = s1
+    pca.servo[9].angle = s2
+    
+
 def heading():
     global amin, amax  # Ensure these are properly referenced
     current_heading = 0  # Avoid overwriting the function name
@@ -121,11 +130,50 @@ def calibrate():
     amin = list(imu.read_magnetometer_data())
     amax = list(imu.read_magnetometer_data())
 
+    pca.servo[8].angle = 90
+    pca.servo[9].angle = 90
+    
     setMotors(0, 0, 0.5)
     time.sleep(2)
     setMotors(0, 0, 0)
 
+def ik(x, y, l1=70, l2=100):
+    """
+    Computes inverse kinematics for a 2DOF robot arm with servo constraints.
+    :param x: Target x position
+    :param y: Target y position
+    :param l1: Length of the first arm segment
+    :param l2: Length of the second arm segment
+    :return: Tuple of (theta1, theta2) in degrees, or None if unreachable
+    """
+    dist_sq = x**2 + y**2
+    if dist_sq > (l1 + l2) ** 2:
+        return None  # Target is out of reach
+    
+    cos_theta2 = (dist_sq - l1**2 - l2**2) / (2 * l1 * l2)
+    if abs(cos_theta2) > 1:
+        return None  # No valid solution
+    
+    sin_theta2 = math.sqrt(1 - cos_theta2**2)  # Elbow-down solution
+    theta2 = math.atan2(sin_theta2, cos_theta2)
+    
+    k1 = l1 + l2 * cos_theta2
+    k2 = l2 * sin_theta2
+    theta1 = math.atan2(y, x) - math.atan2(k2, k1)
+    
+    theta1 = round(math.degrees(theta1) + 90)  # Shift 90° to make middle of servo 90°
+    theta2 = round(math.degrees(theta2) + 90)
+    
+    # Constrain angles to 0 - 180 degrees
+    theta1 = max(0, min(180, theta1))
+    theta2 = max(0, min(180, theta2))
+    
+    return theta1, theta2
+
 def main():
+    armx = -170
+    army = 0
+    
     speed = 1
     zl = zr = 0
 
@@ -141,6 +189,7 @@ def main():
             # Reading the left joystick's X and Y axes
             lr = controller['lx']  # Left X axis (lr)
             fb = controller['ly']  # Left Y axis (fb)
+            du, dd, dl, dr = controller['dup', 'ddown', 'dleft', 'dright']
         
             # Reading the right joystick's X axis
             r = controller['rx']  # Right X axis (r)
@@ -160,11 +209,25 @@ def main():
             if zr is not None:
                 speed += 0.05
                 
+            if any(x is not None for x in [du, dd, dl, dr]):
+                if du is not None:
+                    army += 0.5
+                    army = round(army)
+                if dd is not None:
+                    army -= 0.5
+                    army = round(army)
+                if dl is not None:
+                    armx -= 0.5
+                    armx = round(armx)
+                if dr is not None:
+                    armx += 0.5
+                    armx = round(armx)
+
             speed = max(0, min(2, speed))
             print(speed)
 
             setMotors(lr, fb, r)
-
+            setServos(armx, army)
             ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
     
             temperature = imu.read_temperature()
