@@ -9,7 +9,7 @@ from icm20948 import ICM20948
 import board
 import busio
 
-pca = ServoKit(channels=16)
+pcaServo = ServoKit(channels=16)
 
 # Set up I2C communication
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -81,9 +81,12 @@ def setMotors(lr, fb, r):
 
 def setServos(x, y):
     s1, s2 = ik(x, y)
-    pca.servo[8].angle = s1
-    pca.servo[9].angle = s2
-    
+    if any(x is not None for x in [s1, s2]):
+        
+        pcaServo.servo[8].angle = s1
+        pcaServo.servo[9].angle = s2
+    else:    
+        print("Target arm out of reach!")
 
 def heading():
     global amin, amax  # Ensure these are properly referenced
@@ -118,9 +121,6 @@ def heading():
     if current_heading < 0:
         current_heading += 2 * math.pi
     current_heading = round(math.degrees(current_heading))
-
-    print(current_heading)
-
     return current_heading  # Return the heading value
 
 def calibrate():
@@ -130,8 +130,8 @@ def calibrate():
     amin = list(imu.read_magnetometer_data())
     amax = list(imu.read_magnetometer_data())
 
-    pca.servo[8].angle = 90
-    pca.servo[9].angle = 90
+    pcaServo.servo[8].angle = 90
+    pcaServo.servo[9].angle = 90
     
     setMotors(0, 0, 0.5)
     time.sleep(2)
@@ -230,10 +230,8 @@ def main():
             setServos(armx, army)
             ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
     
-            temperature = imu.read_temperature()
-            temperature = round(temperature, 2)
-
-            print(temprature)
+            dir = heading()
+            print(dir)
 
             time.sleep(0.05)
 
