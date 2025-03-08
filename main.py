@@ -211,17 +211,13 @@ def main():
                 
             if any(x is not None for x in [du, dd, dl, dr]):
                 if du is not None:
-                    army += 0.5
-                    army = round(army)
+                    army += 0.01
                 if dd is not None:
-                    army -= 0.5
-                    army = round(army)
+                    army -= 0.01
                 if dl is not None:
-                    armx -= 0.5
-                    armx = round(armx)
+                    armx -= 0.01
                 if dr is not None:
-                    armx += 0.5
-                    armx = round(armx)
+                    armx += 0.01
 
             speed = max(0, min(2, speed))
             #print(speed)
