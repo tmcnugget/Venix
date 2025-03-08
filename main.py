@@ -212,13 +212,13 @@ def main():
                 
             if any(x is not None for x in [du, dd, dl, dr]):
                 if du is not None:
-                    army += 0.5
+                    army += 5
                 if dd is not None:
-                    army -= 0.5
+                    army -= 5
                 if dl is not None:
-                    armx -= 0.5
+                    armx -= 5
                 if dr is not None:
-                    armx += 0.5
+                    armx += 5
 
             speed = max(0, min(2, speed))
             #print(speed)
