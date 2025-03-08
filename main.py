@@ -80,14 +80,8 @@ def setMotors(lr, fb, r):
     #print(m1, m2, m3, m4)
 
 def setServos(x, y):
-    result = ik(x, y)
-    print(result)
-    if result is not None:
-        s1, s2 = result
-        pcaServo.servo[8].angle = s1
-        pcaServo.servo[9].angle = s2
-    else:    
-        print("Target arm out of reach!")
+    pcaServo.servo[8].angle = x
+    pcaServo.servo[9].angle = y
 
 def heading():
     global amin, amax  # Ensure these are properly referenced
@@ -138,39 +132,6 @@ def calibrate():
     time.sleep(2)
     setMotors(0, 0, 0)
 
-def ik(x, y, l1=70, l2=100):
-    """
-    Computes inverse kinematics for a 2DOF robot arm with servo constraints.
-    :param x: Target x position
-    :param y: Target y position
-    :param l1: Length of the first arm segment
-    :param l2: Length of the second arm segment
-    :return: Tuple of (theta1, theta2) in degrees, or None if unreachable
-    """
-    dist_sq = x**2 + y**2
-    if dist_sq > (l1 + l2) ** 2:
-        return None  # Target is out of reach
-    
-    cos_theta2 = (dist_sq - l1**2 - l2**2) / (2 * l1 * l2)
-    if abs(cos_theta2) > 1:
-        return None  # No valid solution
-    
-    sin_theta2 = math.sqrt(1 - cos_theta2**2)  # Elbow-down solution
-    theta2 = math.atan2(sin_theta2, cos_theta2)
-    
-    k1 = l1 + l2 * cos_theta2
-    k2 = l2 * sin_theta2
-    theta1 = math.atan2(y, x) - math.atan2(k2, k1)
-    
-    theta1 = round(math.degrees(theta1) + 90)  # Shift 90° to make middle of servo 90°
-    theta2 = round(math.degrees(theta2) + 90)
-    
-    # Constrain angles to 0 - 180 degrees
-    theta1 = max(0, min(180, theta1))
-    theta2 = max(0, min(180, theta2))
-    
-    return theta1, theta2
-
 def main():
     armx = -170
     army = 0
@@ -219,6 +180,8 @@ def main():
                     armx -= 5
                 if dr is not None:
                     armx += 5
+                armx = max(0, min(armx, 180))
+                army = max(0, min(army, 180))
 
             speed = max(0, min(2, speed))
             #print(speed)
