@@ -224,14 +224,16 @@ def main():
                     armx = round(armx)
 
             speed = max(0, min(2, speed))
-            print(speed)
+            #print(speed)
 
             setMotors(lr, fb, r)
             setServos(armx, army)
             ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
+
+            print(dup, ddown, dleft, dright)
     
             dir = heading()
-            print(dir)
+            #print(dir)
 
             time.sleep(0.05)
 
