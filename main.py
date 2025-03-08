@@ -230,7 +230,7 @@ def main():
             setServos(armx, army)
             ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
 
-            print(du, dd, dl, dr)
+            print(armx, army)
     
             dir = heading()
             #print(dir)
