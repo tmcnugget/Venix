@@ -173,13 +173,13 @@ def main():
                 
             if any(x is not None for x in [du, dd, dl, dr]):
                 if du is not None:
-                    army += 5
+                    army -= 10
                 if dd is not None:
-                    army -= 5
+                    army += 10
                 if dl is not None:
-                    armx -= 5
+                    armx += 10
                 if dr is not None:
-                    armx += 5
+                    armx -= 10
                 armx = max(0, min(armx, 180))
                 army = max(0, min(army, 180))
 
