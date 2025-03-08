@@ -81,6 +81,7 @@ def setMotors(lr, fb, r):
 
 def setServos(x, y):
     result = ik(x, y)
+    print(result)
     if result is not None:
         s1, s2 = result
         pcaServo.servo[8].angle = s1
@@ -211,13 +212,13 @@ def main():
                 
             if any(x is not None for x in [du, dd, dl, dr]):
                 if du is not None:
-                    army += 0.01
+                    army += 0.5
                 if dd is not None:
-                    army -= 0.01
+                    army -= 0.5
                 if dl is not None:
-                    armx -= 0.01
+                    armx -= 0.5
                 if dr is not None:
-                    armx += 0.01
+                    armx += 0.5
 
             speed = max(0, min(2, speed))
             #print(speed)
@@ -225,8 +226,6 @@ def main():
             setMotors(lr, fb, r)
             setServos(armx, army)
             ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
-
-            print(armx, army)
     
             dir = heading()
             #print(dir)
