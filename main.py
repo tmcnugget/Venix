@@ -189,7 +189,7 @@ def main():
             # Reading the left joystick's X and Y axes
             lr = controller['lx']  # Left X axis (lr)
             fb = controller['ly']  # Left Y axis (fb)
-            du, dd, dl, dr = controller['dup', 'ddown', 'dleft', 'dright']
+            du, dd, dl, dr = controller['triangle', 'cross', 'square', 'circle']
         
             # Reading the right joystick's X axis
             r = controller['rx']  # Right X axis (r)
