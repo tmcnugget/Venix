@@ -133,8 +133,8 @@ def calibrate():
     setMotors(0, 0, 0)
 
 def main():
-    armx = -170
-    army = 0
+    armx = 90
+    army = 90
     
     speed = 1
     zl = zr = 0
