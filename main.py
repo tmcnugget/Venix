@@ -80,9 +80,9 @@ def setMotors(lr, fb, r):
     #print(m1, m2, m3, m4)
 
 def setServos(x, y):
-    s1, s2 = ik(x, y)
-    if any(x is not None for x in [s1, s2]):
-        
+    result = ik(x, y)
+    if result is not None:
+        s1, s2 = result
         pcaServo.servo[8].angle = s1
         pcaServo.servo[9].angle = s2
     else:    
