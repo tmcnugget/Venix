@@ -18,6 +18,8 @@ pca.frequency = 60  # Set the PWM frequency
 
 imu = ICM20948()
 
+mode = "0"
+
 def deadzone(number):
     if abs(number) < 0.005:  # Deadzone range (-0.005, 0.005)
         return 0
@@ -135,9 +137,13 @@ def calibrate():
 def main():
     armx = 90
     army = 90
+
+    abal0 = 90
+    abal1 = 0
     
     speed = 1
-    zl = zr = 0
+    zl = 0
+    zr = 0
 
     global X, Y, Z
     X, Y, Z = 0, 1, 2
@@ -147,7 +153,16 @@ def main():
     with ControllerResource() as controller:
         print('Controller connected!')
         while controller.connected:
+
+            s, l1, r1 = controller['standard', 'l1', 'r1']
+            
             presses = controller.check_presses()
+            if controller['s'] and controller['r1']:
+                mode = min(2, mode + 1)
+
+            elif controller['s'] and controller['l1']:
+                mode = max(0, mode - 1)
+                
             # Reading the left joystick's X and Y axes
             lr = controller['lx']  # Left X axis (lr)
             fb = controller['ly']  # Left Y axis (fb)
@@ -186,12 +201,16 @@ def main():
             speed = max(0, min(2, speed))
             #print(speed)
 
-            setMotors(lr, fb, r)
-            setServos(armx, army)
+            if mode == 0 or mode == 1:
+                setMotors(lr, fb, r)
+            if mode == 1:
+                setServos(armx, army)
+            if mode == 2:
+                setABAL(
             ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
     
             dir = heading()
-            #print(dir)
+            print(dir)
 
             time.sleep(0.05)
 
