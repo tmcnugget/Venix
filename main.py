@@ -228,7 +228,9 @@ def main():
             ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
     
             dir = heading()
-            print(dir)
+            #print(dir)
+
+            print(mode)
 
             time.sleep(0.05)
 
