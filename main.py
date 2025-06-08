@@ -231,7 +231,7 @@ def main():
             dir = heading()
             #print(dir)
 
-            print(abalx, abaly)
+            print(abal0, abal1)
 
             time.sleep(0.05)
 
