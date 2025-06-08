@@ -156,7 +156,7 @@ def main():
         print('Controller connected!')
         while controller.connected:
 
-            s, l1, r1 = controller['standard', 'l1', 'r1']
+            s, l1, r1 = controller['select', 'l1', 'r1']
             
             presses = controller.check_presses()
             if controller['s'] and controller['r1']:
