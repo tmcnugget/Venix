@@ -42,10 +42,11 @@ def setMotors(lr, fb, r):
     m3 = fb - lr + r
     m4 = fb + lr - r
 
-    m1 = min(m1, 1)
-    m2 = min(m2, 1)
-    m3 = min(m3, 1)
-    m4 = min(m4, 1)
+    m1 = max(-1, min(m1, 1))
+    m2 = max(-1, min(m2, 1))
+    m3 = max(-1, min(m3, 1))
+    m4 = max(-1, min(m4, 1))
+
 
     if m1 > 0:
         pwm(1, m1)
@@ -230,7 +231,7 @@ def main():
             dir = heading()
             #print(dir)
 
-            print(mode)
+            print(abalx, abaly)
 
             time.sleep(0.05)
 
