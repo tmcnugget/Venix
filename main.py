@@ -187,43 +187,37 @@ def main():
             lr = deadzone(min(lr, 1)) * speed
             fb = deadzone(min(fb, 1)) * speed
             r = deadzone(min(r, 1)) * speed 
-
-            """Adjusts the speed based on joystick button inputs."""
-
-            if zl is not None:
-                speed -= 0.05
-            if zr is not None:
-                speed += 0.05
-                
-            if any(x is not None for x in [du, dd, dl, dr]):
-                if du is not None:
-                    army -= 10
-                if dd is not None:
-                    army += 10
-                if dl is not None:
-                    armx += 10
-                if dr is not None:
-                    armx -= 10
-                armx = max(0, min(armx, 180))
-                army = max(0, min(army, 180))
-
-            if any(x is not None for x in [lx, ly, rx, ry]):
-                abal0 += lx * 3
-                abal1 += ly * 3
-                abal0 -= rx
-                abal1 -= ry
-                abal0 = max(0, min(abal0, 180))
-                abal1 = max(0, min(abal1, 90))
-                
-
             speed = max(0, min(2, speed))
-            #print(speed)
 
-            if mode == 0 or mode == 1 or mode == 2:
+            if mode == 0 or mode == 1:
+                if zl is not None:
+                    speed -= 0.05
+                if zr is not None:
+                    speed += 0.05
                 setMotors(lr, fb, r)
+            
             if mode == 1:
-                setServos(armx, army)
+                if any(x is not None for x in [du, dd, dl, dr]):
+                    if du is not None:
+                        army -= 10
+                    if dd is not None:
+                        army += 10
+                    if dl is not None:
+                        armx += 10
+                    if dr is not None:
+                        armx -= 10
+                    armx = max(0, min(armx, 180))
+                    army = max(0, min(army, 180))
+                    setServos(armx, army)
+
             if mode == 2:
+                if any(x is not None for x in [lx, ly, rx, ry]):
+                    abal0 += lx * 3
+                    abal1 += ly * 3
+                    abal0 -= rx
+                    abal1 += ry
+                    abal0 = max(0, min(abal0, 180))
+                    abal1 = max(0, min(abal1, 90))
                 setServos(abal0, abal1)
             
             ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
