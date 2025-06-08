@@ -159,10 +159,10 @@ def main():
             s, l1, r1 = controller['select', 'l1', 'r1']
             
             presses = controller.check_presses()
-            if controller['s'] and controller['r1']:
+            if s and r1:
                 mode = min(2, mode + 1)
 
-            elif controller['s'] and controller['l1']:
+            elif s and l1:
                 mode = max(0, mode - 1)
                 
             # Reading the left joystick's X and Y axes
