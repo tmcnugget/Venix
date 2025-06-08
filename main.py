@@ -210,8 +210,8 @@ def main():
             if any(x is not None for x in [lx, ly, rx, ry]):
                 abal0 += lx * 3
                 abal1 += ly * 3
-                abal0 += rx
-                abal1 += ry
+                abal0 -= rx
+                abal1 -= ry
                 abal0 = max(0, min(abal0, 180))
                 abal1 = max(0, min(abal1, 90))
                 
