@@ -8,6 +8,7 @@ from adafruit_servokit import ServoKit
 from icm20948 import ICM20948
 import board
 import busio
+from gpiozero import Buzzer, OutputDevice
 
 pcaServo = ServoKit(channels=16)
 
@@ -19,6 +20,11 @@ pca.frequency = 60  # Set the PWM frequency
 imu = ICM20948()
 
 mode = 0
+
+buzzer = Buzzer(17)        
+igniter = OutputDevice(27)
+
+rumble_active = False
 
 def deadzone(number):
     if abs(number) < 0.005:  # Deadzone range (-0.005, 0.005)
@@ -171,10 +177,10 @@ def main():
             fb = controller['ly']  # Left Y axis (fb)
             du, dd, dl, dr = controller['triangle', 'cross', 'square', 'circle']
 
-            lx = controller['lx']
-            ly = controller['ly']
-            rx = controller['rx']
-            ry = controller['ry']
+            lx = deadzone(controller['lx'])
+            ly = deadzone(controller['ly'])
+            rx = deadzone(controller['rx'])
+            ry = deadzone(controller['ry'])
             
             
             # Reading the right joystick's X axis
@@ -219,6 +225,10 @@ def main():
                     abal0 = max(0, min(abal0, 180))
                     abal1 = max(0, min(abal1, 90))
                 setServos(abal0, abal1)
+
+                if l1 is not None and r1 is not None:
+                    buzzer.on
+                    
             
             ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
     
