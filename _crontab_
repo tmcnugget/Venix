@@ -1,4 +1,4 @@
 @reboot bash /home/venix/run.sh >> /home/venix/cronlog.log 2>&1 &
 #                    ^                     ^
 #-------------------[|]-------------------[|]
-# Replace "venix" with your username
+# Replace "venix" with your username (find it by looking at the green text on left hand side of terminal and it will how up as example@random:$, here, "example" is you username)
