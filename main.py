@@ -24,8 +24,6 @@ mode = 0
 buzzer = Buzzer(17)        
 igniter = OutputDevice(27)
 
-rumble_active = False
-
 def deadzone(number):
     if abs(number) < 0.005:  # Deadzone range (-0.005, 0.005)
         return 0
@@ -227,9 +225,6 @@ def main():
 
                 if l1 is not None and r1 is not None:
                     buzzer.on()
-                    if not rumble_active:
-                        controller.rumble(1000)
-                        rumble_active = True
                     if zl is not None and zr is not None:
                         igniter.on()
                     else:
@@ -237,12 +232,9 @@ def main():
                 else:
                     buzzer.off()
                     igniter.off()
-                    rumble_active = False
             else:
                 buzzer.off()
-                igniter.off()
-                rumble_active = False
-                        
+                igniter.off()             
             
             ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
     
