@@ -171,16 +171,15 @@ def main():
 
             elif s and l1:
                 mode = max(0, mode - 1)
-                
-            # Reading the left joystick's X and Y axes
-            lr = controller['lx']  # Left X axis (lr)
-            fb = controller['ly']  # Left Y axis (fb)
-            du, dd, dl, dr = controller['triangle', 'cross', 'square', 'circle']
 
             lx = deadzone(controller['lx'])
             ly = deadzone(controller['ly'])
             rx = deadzone(controller['rx'])
             ry = deadzone(controller['ry'])
+            # Reading the left joystick's X and Y axes
+            lr = lx  # Left X axis (lr)
+            fb = ly  # Left Y axis (fb)
+            du, dd, dl, dr = controller['triangle', 'cross', 'square', 'circle']
             
             
             # Reading the right joystick's X axis
@@ -190,16 +189,16 @@ def main():
             zl = controller['l2']
             zr = controller['r2']
                 
-            lr = deadzone(min(lr, 1)) * speed
-            fb = deadzone(min(fb, 1)) * speed
-            r = deadzone(min(r, 1)) * speed 
-            speed = max(0, min(2, speed))
+            lr = min(lr, 1) * speed
+            fb = min(fb, 1) * speed
+            r = min(r, 1) * speed 
 
             if mode == 0 or mode == 1:
                 if zl is not None:
                     speed -= 0.05
                 if zr is not None:
                     speed += 0.05
+                speed = max(0, min(2, speed))
                 setMotors(lr, fb, r)
             
             if mode == 1:
@@ -227,8 +226,23 @@ def main():
                 setServos(abal0, abal1)
 
                 if l1 is not None and r1 is not None:
-                    buzzer.on
-                    
+                    buzzer.on()
+                    if not rumble_active:
+                        controller.rumble(1000)
+                        rumble_active = True
+                    if zl is not None and zr is not None:
+                        igniter.on()
+                    else:
+                        igniter.off()
+                else:
+                    buzzer.off()
+                    igniter.off()
+                    rumble_active = False
+            else:
+                buzzer.off()
+                igniter.off()
+                rumble_active = False
+                        
             
             ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
     
