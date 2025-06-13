@@ -227,6 +227,7 @@ def main():
                     buzzer.on()
                     if zl is not None and zr is not None:
                         igniter.on()
+                        print("ignition")
                     else:
                         igniter.off()
                 else:
@@ -241,7 +242,7 @@ def main():
             dir = heading()
             #print(dir)
 
-            print(abal0, abal1)
+            #print(abal0, abal1)
 
             time.sleep(0.05)
 
