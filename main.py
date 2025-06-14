@@ -97,10 +97,11 @@ def buzzer(state):
     global bhz
     if state == "on":
         buzzerDevice.play(Tone(bhz))
-        bhz += 5
+        bhz += 15
         if bhz >= 880:
             bhz = 500
-    elif state == "off": 
+    elif state == "off":
+        bhz = 500
         buzzerDevice.off()
 
 def heading():
