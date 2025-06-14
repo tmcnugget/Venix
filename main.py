@@ -8,7 +8,10 @@ from adafruit_servokit import ServoKit
 from icm20948 import ICM20948
 import board
 import busio
-from gpiozero import Buzzer, OutputDevice
+from gpiozero import TonalBuzzer, OutputDevice
+from gpiozero.tones import Tone
+
+bhz = 500
 
 pcaServo = ServoKit(channels=16)
 
@@ -21,7 +24,7 @@ imu = ICM20948()
 
 mode = 0
 
-buzzer = Buzzer(17)        
+buzzerDevice = TonalBuzzer(22)        
 igniter = OutputDevice(27)
 
 def deadzone(number):
@@ -89,6 +92,16 @@ def setMotors(lr, fb, r):
 def setServos(x, y):
     pcaServo.servo[8].angle = x
     pcaServo.servo[9].angle = y
+
+def buzzer(state):
+    global bhz
+    if state == "on":
+        buzzerDevice.play(Tone(bhz))
+        bhz += 5
+        if bhz >= 880:
+            bhz = 500
+    elif state == "off": 
+        buzzerDevice.off()
 
 def heading():
     global amin, amax  # Ensure these are properly referenced
@@ -224,17 +237,17 @@ def main():
                 setServos(abal0, abal1)
 
                 if l1 is not None and r1 is not None:
-                    buzzer.on()
+                    buzzer("on")
                     if zl is not None and zr is not None:
                         igniter.on()
-                        print("ignition")
+                        #print("ignition")
                     else:
                         igniter.off()
                 else:
-                    buzzer.off()
+                    buzzer("off")
                     igniter.off()
             else:
-                buzzer.off()
+                buzzer("off")
                 igniter.off()             
             
             ax, ay, az, gx, gy, gz = imu.read_accelerometer_gyro_data()
