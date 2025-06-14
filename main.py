@@ -102,7 +102,7 @@ def buzzer(state):
             bhz = 500
     elif state == "off":
         bhz = 500
-        buzzerDevice.off()
+        buzzerDevice.stop()
 
 def heading():
     global amin, amax  # Ensure these are properly referenced
